@@ -9,7 +9,7 @@
 
 <h3>Deep Desert Calculator</h3>
 
-@if (Buildings != null)
+@if (Buildings != null && Items != null)
 {
     @foreach (var building in Buildings)
     {
@@ -19,6 +19,16 @@
             <span>@(building.Name)</span>
         </div>
         SetImageAsync(building.Image, imageId, building.Name);
+    }
+
+    @foreach(var item in Items)
+    {
+        string imageId = item.Id.ToString() + "-image";
+        <div>
+            <img id=@(imageId)>
+            <span>@(item.Name)</span>
+        </div>
+        SetImageAsync(item.Image, imageId, item.Name);
     }
 }
 

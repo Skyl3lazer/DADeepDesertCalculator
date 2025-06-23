@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
     <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
-    <AssemblyVersion>1.0.25174.36</AssemblyVersion>
+    <AssemblyVersion>1.0.25174.44</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

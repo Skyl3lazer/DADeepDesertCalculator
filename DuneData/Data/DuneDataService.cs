@@ -203,12 +203,12 @@ namespace DuneData.Data
                 new Fabricator("Survival Fabricator", new Dictionary<Guid, int>(){
                     { MaterialDictionary["Steel Ingot"], 40 },
                     { MaterialDictionary["Complex Machinery"], 30 }
-                }, -40, ImageBase+"Survival abricator.webp"),
+                }, -40, ImageBase+"SurvivalFabricator.webp"),
 
                 new Fabricator("Vehicles Fabricator", new Dictionary<Guid, int>(){
                     { MaterialDictionary["Steel Ingot"], 40 },
                     { MaterialDictionary["Complex Machinery"], 30 }
-                }, -40, ImageBase+"Vehicles Fabricator.webp"),
+                }, -40, ImageBase+"VehiclesFabricator.webp"),
 
                 new Fabricator("Weapons Fabricator", new Dictionary<Guid, int>(){
                     { MaterialDictionary["Steel Ingot"], 40 },
@@ -258,14 +258,14 @@ namespace DuneData.Data
                     { MaterialDictionary["Solari"], 15000 }
                 }, new Dictionary<BuildingType, int>(){
                     { BuildingType.Refinery, 10 }
-                }, ImageBase+"Staking Unit.webp"),
+                }, ImageBase+"StakingUnit.webp"),
 
                 new StakingUnit("Vertical Staking Unit", new Dictionary<Guid, int>(){
                     { MaterialDictionary["Steel Ingot"], 15 },
                     { MaterialDictionary["Solari"], 15000 }
                 }, new Dictionary<BuildingType, int>(){
                     { BuildingType.Refinery, 10 }
-                }, ImageBase+"Staking Unit.webp")
+                }, ImageBase+"StakingUnit.webp")
             };
 
             Task<IEnumerable<Building>> result = Task.FromResult(buildings);
