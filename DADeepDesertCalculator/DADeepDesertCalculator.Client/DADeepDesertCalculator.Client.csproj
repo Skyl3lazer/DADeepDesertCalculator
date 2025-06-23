@@ -6,11 +6,12 @@
     <Nullable>enable</Nullable>
     <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
     <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
-    <AssemblyVersion>1.0.25174.44</AssemblyVersion>
+    <AssemblyVersion>1.0.25174.80</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.6" />
+    <PackageReference Include="MudBlazor" Version="8.8.0" />
   </ItemGroup>
 
   <ItemGroup>

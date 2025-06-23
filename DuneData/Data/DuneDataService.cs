@@ -148,8 +148,20 @@ namespace DuneData.Data
                 new Utility("Windtrap", new Dictionary<Guid, int>(){
                     { MaterialDictionary["Steel Ingot"], 90 },
                     { MaterialDictionary["Silicone Block"], 30 },
-                    { MaterialDictionary["Calibrated Servok"], 20 },
+                    { MaterialDictionary["Calibrated Servok"], 20 }
                 }, FuelType.None, -75, ImageBase+"Windtrap.webp"),
+
+                new Utility("Horizontal Pentashield", new Dictionary<Guid, int>(){
+                    { MaterialDictionary["Steel Ingot"], 2 },
+                    { MaterialDictionary["Cobalt Paste"], 20 },
+                    { MaterialDictionary["Calibrated Servok"], 6 }
+                }, FuelType.None, 0, ImageBase+"HorizontalPentashield.webp"),
+
+                new Utility("Vertical Pentashield", new Dictionary<Guid, int>(){
+                    { MaterialDictionary["Steel Ingot"], 2 },
+                    { MaterialDictionary["Cobalt Paste"], 20 },
+                    { MaterialDictionary["Calibrated Servok"], 6 }
+                }, FuelType.None, 0, ImageBase+"VerticalPentashield.webp"),
 
                 ////
                 //Fabricators
@@ -278,14 +290,14 @@ namespace DuneData.Data
             IEnumerable<Item> items = new List<Item>()
             {
                 //Fuels
-                new Fuel("Fuel Cell", 0.2, FuelType.FuelCell, ImageBase+"FuelCell.webp"),
-                new Fuel("Makeshift Filter", 5, FuelType.SmallFilter, ImageBase+"MakeshiftFilter.webp"),
-                new Fuel("Standard Filter", 5, FuelType.SmallFilter, ImageBase+"StandardFilter.webp"),
-                new Fuel("Particulate Filter", 5, FuelType.LargeFilter, ImageBase+"ParticulateFilter.webp"),
-                new Fuel("Advanced Particulate Filter", 5, FuelType.LargeFilter, ImageBase+"AdvancedParticulateFilter.webp"),
-                new Fuel("Low-grade Lubricant", 0.2, FuelType.LowLubricant, ImageBase+"LowGradeLubricant.webp"),
-                new Fuel("Industrial-grade Lubricant", 0.2, FuelType.IndustrialLubricant, ImageBase+"IndustrialGradeLubricant.webp"),
-                new Fuel("Spice-infused Fuel Cell", 0.2, FuelType.SpiceFuelCell, ImageBase+"SpiceInfusedFuelCell.webp"),
+                new Fuel("Fuel Cell", 0.2, FuelType.FuelCell, 60, ImageBase+"FuelCell.webp"),
+                new Fuel("Makeshift Filter", 5, FuelType.SmallFilter, 180, ImageBase+"MakeshiftFilter.webp"),
+                new Fuel("Standard Filter", 5, FuelType.SmallFilter, 480, ImageBase+"StandardFilter.webp"),
+                new Fuel("Particulate Filter", 5, FuelType.LargeFilter, 720, ImageBase+"ParticulateFilter.webp"),
+                new Fuel("Advanced Particulate Filter", 5, FuelType.LargeFilter, 1440, ImageBase+"AdvancedParticulateFilter.webp"),
+                new Fuel("Low-grade Lubricant", 0.2, FuelType.LowLubricant, 60, ImageBase+"LowGradeLubricant.webp"),
+                new Fuel("Industrial-grade Lubricant", 0.2, FuelType.IndustrialLubricant, 90, ImageBase+"IndustrialGradeLubricant.webp"),
+                new Fuel("Spice-infused Fuel Cell", 0.2, FuelType.SpiceFuelCell, 0, ImageBase+"SpiceInfusedFuelCell.webp"),
                 
                 //Tier 0
                 new Material("Salvaged Metal", 0.15, ImageBase+"SalvagedMetal.webp"),

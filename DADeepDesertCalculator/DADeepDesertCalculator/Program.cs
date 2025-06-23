@@ -1,6 +1,7 @@
 using DADeepDesertCalculator.Client.Pages;
 using DADeepDesertCalculator.Components;
 using DuneData.Data;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddSingleton<DuneDataService>();
+
+builder.Services.AddMudServices();
 
 var app = builder.Build();
 

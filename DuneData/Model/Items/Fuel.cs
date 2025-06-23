@@ -9,9 +9,11 @@ namespace DuneData.Model
     public class Fuel : Item
     {
         public FuelType FType { get; set; }
-        public Fuel(string name, double vol, FuelType ftype, string image = "") : base(name, vol, ItemType.Fuel, image)
+        public int DurationMinutes { get; set; }
+        public Fuel(string name, double vol, FuelType ftype, int duration, string image = "") : base(name, vol, ItemType.Fuel, image)
         {
             FType = ftype;
+            DurationMinutes = duration;
         }
     }
 }

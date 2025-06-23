@@ -7,34 +7,147 @@
 @inject DuneDataService dataService;
 @inject IJSRuntime JS
 
-<h3>Deep Desert Calculator</h3>
+<h3>Base Construction Calculator</h3>
 
 @if (Buildings != null && Items != null)
 {
-    @foreach (var building in Buildings)
-    {
-        string imageId = building.Id.ToString() + "-image";
-        <div>
-            <img id=@(imageId)>
-            <span>@(building.Name)</span>
-        </div>
-        SetImageAsync(building.Image, imageId, building.Name);
-    }
+    <div>
+        <span>Current Limits: Production: </span><span>@(CurrentProduction)</span><span>/</span><span>@(StakingCount* ProductionStakingBonus + ProductionLimitBase)</span>
+        <span>Storage: </span><span>@(CurrentStorage)</span><span>/</span><span>@(StakingCount* StorageStakingBonus + StorageLimitBase)</span>
+    </div>
+    <div class="@(PowerDraw < 0 ? "mud-theme-error" : "mud-theme-primary")">
+        <span class="fa fa-bolt" />
+        <span>@(PowerDraw)</span>
+    </div>
+    <div>
+        <span>Deep Desert Base:</span> <input type="checkbox" @bind-value=DeepDesertBase />
+    </div>
 
-    @foreach(var item in Items)
-    {
-        string imageId = item.Id.ToString() + "-image";
+    <div>
+        <span>Add a Building:</span> <MudSelect T="Building" SelectedValuesChanged="(e) => SelectedValueChanged(e)" @ref="BuildingSelectField" Placeholder="Select a Building">
+            @foreach (var building in Buildings.Where(a => !SelectedBuildings.Keys.Contains(a)))
+            {
+                <MudSelectItem Value="building">@(building.Name)</MudSelectItem>
+            }
+        </MudSelect>
+    </div>
+
+    <MudDataGrid Items="@SelectedBuildings.Keys">
+        <Columns>
+            <TemplateColumn>
+                <CellTemplate>
+                    <MudStack Row>
+                        <img width="50" height="50" class="rounded-lg" id="@(context.Item.Id)-image" />
+                    </MudStack>
+                </CellTemplate>
+            </TemplateColumn>
+            <PropertyColumn Property="x => x.Name" />
+            <PropertyColumn Property="x => SelectedBuildings[x]" Title="Number" />
+            <TemplateColumn>
+                <CellTemplate>
+                    <MudStack Row>
+                        @if (SelectedBuildings[context.Item] > 1)
+                        {
+                            <MudIconButton Color="Color.Primary" Icon="fas fa-minus" Size="Size.Small" OnClick="(e) => SubtractBuilding(context.Item)" />
+                        }
+                        else
+                        {
+                            <MudIconButton Color="Color.Primary" Icon="fas fa-trash" Size="Size.Small" OnClick="(e) => RemoveBuilding(context.Item)" />
+                        }
+                        <span>@SelectedBuildings[context.Item]</span><MudIconButton Color="Color.Primary" Icon="fas fa-plus" Size="Size.Small" OnClick="(e) => AddBuilding(context.Item)" />
+                    </MudStack>
+                </CellTemplate>
+            </TemplateColumn>
+            <PropertyColumn Property="x => x.PowerDraw" Title="Power Change" />
+        </Columns>
+    </MudDataGrid>
+    <div>
         <div>
-            <img id=@(imageId)>
-            <span>@(item.Name)</span>
+        Required Volume: @(RequiredResources.Sum(a => Math.Ceiling(a.Value * a.Key.Volume * DDMulti)))V
         </div>
-        SetImageAsync(item.Image, imageId, item.Name);
-    }
+        <div>
+        Required Materials:
+        </div>
+        <MudDataGrid Items="@RequiredResources.Keys" >
+            <Columns>
+                <TemplateColumn>
+                    <CellTemplate>
+                        <MudStack Row>
+                            <img width="50" height="50" class="rounded-lg" id="@(context.Item.Id)-image" />
+                            <span style="display:none;">@SetImageAsync(context.Item.Image, context.Item.Id + "-image", context.Item.Name);</span>
+                        </MudStack>
+                    </CellTemplate>
+                </TemplateColumn>
+                <PropertyColumn Property="x => x.Name" />
+                <PropertyColumn Property="x => Math.Ceiling(RequiredResources[x] * DDMulti)" Title="Number" />
+                <PropertyColumn Property="x => x.Volume" Title="Volume/ea" />
+                <PropertyColumn Property="x => x.Volume * Math.Ceiling(RequiredResources[x] * DDMulti)" Title="Total Vol." />
+            </Columns>
+        </MudDataGrid>
+    </div>
+
+    @* Required *@
+    <MudThemeProvider />
+    <MudPopoverProvider />
+
+    @* Needed for dialogs *@
+    <MudDialogProvider />
+
+    @* Needed for snackbars *@
+    <MudSnackbarProvider />
+}
+else
+{
+    <div>Loading...</div>
 }
 
 @code {
     IEnumerable<Building>? Buildings;
     IEnumerable<Item>? Items;
+
+    MudSelect<Building> BuildingSelectField = new();
+
+    Dictionary<Building, int> SelectedBuildings = new();
+
+    int ProductionLimitBase = 40;
+    int StorageLimitBase = 75;
+
+    int ProductionStakingBonus = 8;
+    int StorageStakingBonus = 15;
+
+    int CurrentProduction => SelectedBuildings.Where(a => a.Key.Type == BuildingType.Refinery || a.Key.Type == BuildingType.Utility || a.Key.Type == BuildingType.Fabricator).Sum(b => b.Value);
+    int CurrentStorage => SelectedBuildings.Where(a => a.Key.Type == BuildingType.Storage).Sum(b => b.Value);
+
+    int StakingCount => SelectedBuildings.Where(a => a.Key.Type == BuildingType.StakingUnit).Sum(b => b.Value);
+
+    int PowerDraw => SelectedBuildings.Sum(a => a.Value * a.Key.PowerDraw);
+
+    Dictionary<Item, int> RequiredResources
+    {
+        get
+        {
+            var temp = new Dictionary<Guid, int>();
+            foreach (var bld in SelectedBuildings)
+            {
+                foreach (var mat in bld.Key.Materials.Keys)
+                {
+                    if (temp.ContainsKey(mat)) temp[mat] += (bld.Key.Materials[mat] * bld.Value);
+                    else temp.Add(mat, (bld.Key.Materials[mat] * bld.Value));
+                }
+            }
+            return temp.ToDictionary(x => Items!.First(a => a.Id == x.Key), x => x.Value);
+        }
+    }
+
+    bool DeepDesertBase = false;
+    double DDMulti
+    {
+        get
+        {
+            return (DeepDesertBase ? 0.5 : 1);
+        }
+    }
+
     protected override async Task OnInitializedAsync()
     {
         Items = await dataService.GetItemsAsync();
@@ -47,5 +160,46 @@
         var imageStream = dataService.GetImageStream(path);
         var strRef = new DotNetStreamReference(imageStream);
         await JS.InvokeVoidAsync("setSource", element, strRef, "image/webp", title);
+    }
+
+    private void AddBuilding(Building add)
+    {
+        if (SelectedBuildings.ContainsKey(add))
+        {
+            SelectedBuildings[add] += 1;
+        }
+        else
+        {
+            SelectedBuildings.Add(add, 1);
+        }
+    }
+
+    private void SubtractBuilding(Building subtract)
+    {
+        if (SelectedBuildings.ContainsKey(subtract))
+        {
+            SelectedBuildings[subtract] -= 1;
+
+            if (SelectedBuildings[subtract] <= 0)
+                SelectedBuildings.Remove(subtract);
+        }
+    }
+
+    private void RemoveBuilding(Building remove)
+    {
+        if (SelectedBuildings.ContainsKey(remove))
+            SelectedBuildings.Remove(remove);
+    }
+
+    private void SelectedValueChanged(IEnumerable<Building?>? values)
+    {
+        var value = values?.FirstOrDefault();
+        if (value != null)
+        {
+            AddBuilding(value);
+            BuildingSelectField.ClearAsync();
+            SetImageAsync(value.Image, value.Id + "-image", value.Name);
+        }
+        StateHasChanged();
     }
 }
