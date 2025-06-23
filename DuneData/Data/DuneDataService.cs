@@ -292,6 +292,7 @@ namespace DuneData.Data
                 new Material("Granite Stone", 0.1, ImageBase+"GraniteStone.webp"),
                 new Material("Plant Fiber", 0.1, ImageBase+"PlantFiber.webp"),
                 new Material("Water", 0, ImageBase+"Water.webp"),
+                new Material("Solari", 0, ImageBase+"Solari.webp"),
                 
                 //Tier 1
                 new Material("Copper Ingot", 0.25, ImageBase+"CopperIngot.webp"),
