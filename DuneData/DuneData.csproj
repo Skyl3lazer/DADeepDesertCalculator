@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>1.0.25174.30</AssemblyVersion>
+    <AssemblyVersion>1.0.25174.31</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -90,6 +90,7 @@
     <None Remove="Images\Placeables\FremenDeathstill.webp" />
     <None Remove="Images\Placeables\FuelPoweredGenerator.webp" />
     <None Remove="Images\Placeables\GarmentFabricator.webp" />
+    <None Remove="Images\Placeables\HorizontalPentashield.webp" />
     <None Remove="Images\Placeables\ImprovedBloodPurifier.webp" />
     <None Remove="Images\Placeables\LargeOreRefinery.webp" />
     <None Remove="Images\Placeables\LargeSpiceRefinery.webp" />
@@ -112,6 +113,7 @@
     <None Remove="Images\Placeables\SubFiefConsole.webp" />
     <None Remove="Images\Placeables\SurvivalFabricator.webp" />
     <None Remove="Images\Placeables\VehiclesFabricator.webp" />
+    <None Remove="Images\Placeables\VerticalPentashield.webp" />
     <None Remove="Images\Placeables\WeaponsFabricator.webp" />
     <None Remove="Images\Placeables\Windtrap.webp" />
     <None Remove="Images\Placeables\WindTurbine.webp" />
@@ -203,6 +205,7 @@
     <EmbeddedResource Include="Images\Placeables\FremenDeathstill.webp" />
     <EmbeddedResource Include="Images\Placeables\FuelPoweredGenerator.webp" />
     <EmbeddedResource Include="Images\Placeables\GarmentFabricator.webp" />
+    <EmbeddedResource Include="Images\Placeables\HorizontalPentashield.webp" />
     <EmbeddedResource Include="Images\Placeables\ImprovedBloodPurifier.webp" />
     <EmbeddedResource Include="Images\Placeables\LargeOreRefinery.webp" />
     <EmbeddedResource Include="Images\Placeables\LargeSpiceRefinery.webp" />
@@ -225,6 +228,7 @@
     <EmbeddedResource Include="Images\Placeables\SubFiefConsole.webp" />
     <EmbeddedResource Include="Images\Placeables\SurvivalFabricator.webp" />
     <EmbeddedResource Include="Images\Placeables\VehiclesFabricator.webp" />
+    <EmbeddedResource Include="Images\Placeables\VerticalPentashield.webp" />
     <EmbeddedResource Include="Images\Placeables\WeaponsFabricator.webp" />
     <EmbeddedResource Include="Images\Placeables\Windtrap.webp" />
     <EmbeddedResource Include="Images\Placeables\WindTurbine.webp" />

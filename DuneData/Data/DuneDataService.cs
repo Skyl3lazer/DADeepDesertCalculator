@@ -297,7 +297,7 @@ namespace DuneData.Data
                 new Fuel("Advanced Particulate Filter", 5, FuelType.LargeFilter, 1440, ImageBase+"AdvancedParticulateFilter.webp"),
                 new Fuel("Low-grade Lubricant", 0.2, FuelType.LowLubricant, 60, ImageBase+"LowGradeLubricant.webp"),
                 new Fuel("Industrial-grade Lubricant", 0.2, FuelType.IndustrialLubricant, 90, ImageBase+"IndustrialGradeLubricant.webp"),
-                new Fuel("Spice-infused Fuel Cell", 0.2, FuelType.SpiceFuelCell, 0, ImageBase+"SpiceInfusedFuelCell.webp"),
+                new Fuel("Spice-infused Fuel Cell", 0.2, FuelType.SpiceFuelCell, 90, ImageBase+"SpiceInfusedFuelCell.webp"),
                 
                 //Tier 0
                 new Material("Salvaged Metal", 0.15, ImageBase+"SalvagedMetal.webp"),

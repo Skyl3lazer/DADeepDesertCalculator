@@ -19,6 +19,12 @@
         <span class="fa fa-bolt" />
         <span>@(PowerDraw)</span>
     </div>
+    @if(SelectedBuildings.Keys.Any(a => a.Name.EndsWith("Pentashield")))
+    {
+        <div>
+            <span class="fa fa-triangle-exclamation" /><span>Base contains Pentashields, which are not included in the power calculation.</span>
+        </div>
+    }
     <div>
         <span>Deep Desert Base:</span> <input type="checkbox" @bind-value=DeepDesertBase />
     </div>
