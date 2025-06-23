@@ -8,7 +8,7 @@ namespace DuneData.Model
 {
     public class Fabricator : Building
     {
-        public Fabricator(string name, IEnumerable<Material> materials, string imagePath = "") : base(name, BuildingType.Fabricator, materials, imagePath)
+        public Fabricator(string name, Dictionary<Guid, int> materials, int powerDraw, string imagePath = "") : base(name, BuildingType.Fabricator, materials, powerDraw, imagePath)
         {
         }
     }

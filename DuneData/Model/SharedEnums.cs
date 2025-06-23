@@ -5,7 +5,8 @@
         Storage,
         Refinery,
         Fabricator,
-        Utility
+        Utility,
+        StakingUnit
     }
     public enum ItemType
     {
@@ -14,11 +15,19 @@
     }
     public enum FuelType
     {
+        None,
         IndustrialLubricant,
         SmallFilter,
         LargeFilter,
         LowLubricant,
         FuelCell,
         SpiceFuelCell
+    }
+    public enum StorageType
+    {
+        None,
+        Water,
+        Volume,
+        Blood
     }
 }

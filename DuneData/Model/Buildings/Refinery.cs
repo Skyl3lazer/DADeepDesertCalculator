@@ -2,7 +2,7 @@
 {
     public class Refinery : Building
     {
-        public Refinery(string name, IEnumerable<Material> materials, string imagePath = "") : base(name, BuildingType.Refinery, materials, imagePath) { 
+        public Refinery(string name, Dictionary<Guid, int> materials, int powerDraw, string imagePath = "") : base(name, BuildingType.Refinery, materials, powerDraw, imagePath) { 
         }
     }
 }

@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>1.0.25174.9</AssemblyVersion>
+    <AssemblyVersion>1.0.25174.10</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -87,10 +87,6 @@
     <EmbeddedResource Include="Images\Placeables\WeaponsFabricator.webp" />
     <EmbeddedResource Include="Images\Placeables\Windtrap.webp" />
     <EmbeddedResource Include="Images\Placeables\WindTurbine.webp" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Images\Items\" />
   </ItemGroup>
 
 </Project>

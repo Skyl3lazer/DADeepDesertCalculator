@@ -24,9 +24,11 @@
 
 @code {
     IEnumerable<Building>? Buildings;
+    IEnumerable<Item>? Items;
     protected override async Task OnInitializedAsync()
     {
-        Buildings = await dataService.GetBuildingsAsync();
+        Items = await dataService.GetItemsAsync();
+        Buildings = await dataService.GetBuildingsAsync(Items);
     }
 
     private async Task SetImageAsync(string path, string element, string title)

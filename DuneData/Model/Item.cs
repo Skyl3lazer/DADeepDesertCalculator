@@ -2,6 +2,7 @@
 {
     public class Item
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
         public double Volume { get; set; }
         public string Name { get; set; }
         public ItemType Type { get; set; }

@@ -9,9 +9,13 @@ namespace DuneData.Model
     public class Utility : Building
     {
         public FuelType AcceptedFuelType { get; set; }
-        public Utility(string name, IEnumerable<Material> materials, FuelType fuelType, string imagePath = "") : base(name, BuildingType.Utility, materials, imagePath)
+        public StorageType SType { get; set; }
+        public int Volume { get; set; }
+        public Utility(string name, Dictionary<Guid, int> materials, FuelType fuelType, int powerDraw, string imagePath = "", StorageType sType = StorageType.None, int volume = 0) : base(name, BuildingType.Utility, materials, powerDraw, imagePath)
         {
             AcceptedFuelType = fuelType;
+            SType = sType;
+            Volume = volume;
         }
     }
 }
