@@ -305,6 +305,7 @@ namespace DuneData.Data
                 
                 //Tier 2
                 new Material("Iron Ingot", 0.4, ImageBase+"IronIngot.webp"),
+                new Material("Silicone Block", 0.1, ImageBase+"SiliconeBlock.webp"),
                 new Material("Armor Plating", 0.1, ImageBase+"ArmorPlating.webp"),
                 new Material("Blade Parts", 0.1, ImageBase+"BladeParts.webp"),
                 new Material("Complex Machinery", 0.1, ImageBase+"ComplexMachinery.webp"),
@@ -340,7 +341,6 @@ namespace DuneData.Data
                 
                 //Tier 6
                 new Material("Plastanium Ingot", 1, ImageBase+"PlastaniumIngot.webp"),
-                new Material("Duraluminum Ingot", 0.6, ImageBase+"StravidiumFiber.webp"),
                 new Material("Advanced Machinery", 0.1, ImageBase+"AdvancedMachinery.webp"),
                 new Material("Atmospheric Filtered Fabric", 0.1, ImageBase+"AtmosphericFilteredFabric.webp"),
                 new Material("Ballistic Weave Fabric", 0.1, ImageBase+"BallisticWeaveFabric.webp"),
