@@ -1,0 +1,39 @@
+﻿@page "/calculator"
+@rendermode InteractiveAuto
+
+@using DuneData.Data;
+@using DuneData.Model;
+
+@inject DuneDataService dataService;
+@inject IJSRuntime JS
+
+<h3>Deep Desert Calculator</h3>
+
+@if (Buildings != null)
+{
+    @foreach (var building in Buildings)
+    {
+        string imageId = building.Id.ToString() + "-image";
+        <div>
+            <img id=@(imageId)>
+            <span>@(building.Name)</span>
+        </div>
+        SetImageAsync(building.Image, imageId, building.Name);
+    }
+}
+
+@code {
+    IEnumerable<Building>? Buildings;
+    protected override async Task OnInitializedAsync()
+    {
+        Buildings = await dataService.GetBuildingsAsync();
+    }
+
+    private async Task SetImageAsync(string path, string element, string title)
+    {
+        if (string.IsNullOrEmpty(path)) return;
+        var imageStream = dataService.GetImageStream(path);
+        var strRef = new DotNetStreamReference(imageStream);
+        await JS.InvokeVoidAsync("setSource", element, strRef, "image/webp", title);
+    }
+}
