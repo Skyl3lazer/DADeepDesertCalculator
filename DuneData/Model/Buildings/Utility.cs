@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DuneData.Model.Buildings
+namespace DuneData.Model
 {
     public class Utility : Building
     {
-        public Utility(string name, IEnumerable<Material> materials, string imagePath = "") : base(name, BuildingType.Utility, materials, imagePath)
+        public FuelType AcceptedFuelType { get; set; }
+        public Utility(string name, IEnumerable<Material> materials, FuelType fuelType, string imagePath = "") : base(name, BuildingType.Utility, materials, imagePath)
         {
+            AcceptedFuelType = fuelType;
         }
     }
 }

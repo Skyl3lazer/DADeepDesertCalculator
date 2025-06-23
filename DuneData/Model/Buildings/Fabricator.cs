@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DuneData.Model.Buildings
+namespace DuneData.Model
 {
     public class Fabricator : Building
     {

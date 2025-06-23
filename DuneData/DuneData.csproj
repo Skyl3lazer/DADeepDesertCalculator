@@ -9,12 +9,88 @@
 
   <ItemGroup>
     <None Remove="Images\Placeables\AdvancedFremenDeathstill.webp" />
+    <None Remove="Images\Placeables\AdvancedGarmentFabricator.webp" />
+    <None Remove="Images\Placeables\AdvancedSubfiefConsole.webp" />
+    <None Remove="Images\Placeables\AdvancedSurvivalFabricator.webp" />
+    <None Remove="Images\Placeables\AdvancedVehicleFabricator.webp" />
+    <None Remove="Images\Placeables\AdvancedWeaponFabricator.webp" />
+    <None Remove="Images\Placeables\BloodPurifier.webp" />
+    <None Remove="Images\Placeables\Chest.webp" />
+    <None Remove="Images\Placeables\DirectionalWindTurbine.webp" />
+    <None Remove="Images\Placeables\Fabricator.webp" />
+    <None Remove="Images\Placeables\FremenDeathstill.webp" />
+    <None Remove="Images\Placeables\FuelPoweredGenerator.webp" />
+    <None Remove="Images\Placeables\GarmentFabricator.webp" />
+    <None Remove="Images\Placeables\ImprovedBloodPurifier.webp" />
+    <None Remove="Images\Placeables\LargeOreRefinery.webp" />
+    <None Remove="Images\Placeables\LargeSpiceRefinery.webp" />
+    <None Remove="Images\Placeables\LargeWaterCistern.webp" />
+    <None Remove="Images\Placeables\LargeWindtrap.webp" />
+    <None Remove="Images\Placeables\MediumChemicalRefinery.webp" />
+    <None Remove="Images\Placeables\MediumOreRefinery.webp" />
+    <None Remove="Images\Placeables\MediumSpiceRefinery.webp" />
+    <None Remove="Images\Placeables\MediumStorageContainer.webp" />
+    <None Remove="Images\Placeables\MediumWaterCistern.webp" />
+    <None Remove="Images\Placeables\Recycler.webp" />
+    <None Remove="Images\Placeables\RepairStation.webp" />
+    <None Remove="Images\Placeables\SmallChemicalRefinery.webp" />
+    <None Remove="Images\Placeables\SmallOreRefinery.webp" />
+    <None Remove="Images\Placeables\SmallStorageContainer.webp" />
+    <None Remove="Images\Placeables\SpicePoweredGenerator.webp" />
+    <None Remove="Images\Placeables\SpiceRefinery.webp" />
+    <None Remove="Images\Placeables\StorageContainer.webp" />
+    <None Remove="Images\Placeables\SubFiefConsole.webp" />
+    <None Remove="Images\Placeables\SurvivalFabricator.webp" />
+    <None Remove="Images\Placeables\VehiclesFabricator.webp" />
+    <None Remove="Images\Placeables\WeaponsFabricator.webp" />
+    <None Remove="Images\Placeables\Windtrap.webp" />
+    <None Remove="Images\Placeables\WindTurbine.webp" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Images\Placeables\AdvancedFremenDeathstill.webp">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Images\Placeables\AdvancedGarmentFabricator.webp" />
+    <EmbeddedResource Include="Images\Placeables\AdvancedSubfiefConsole.webp" />
+    <EmbeddedResource Include="Images\Placeables\AdvancedSurvivalFabricator.webp" />
+    <EmbeddedResource Include="Images\Placeables\AdvancedVehicleFabricator.webp" />
+    <EmbeddedResource Include="Images\Placeables\AdvancedWeaponFabricator.webp" />
+    <EmbeddedResource Include="Images\Placeables\BloodPurifier.webp" />
+    <EmbeddedResource Include="Images\Placeables\Chest.webp" />
+    <EmbeddedResource Include="Images\Placeables\DirectionalWindTurbine.webp" />
+    <EmbeddedResource Include="Images\Placeables\Fabricator.webp" />
+    <EmbeddedResource Include="Images\Placeables\FremenDeathstill.webp" />
+    <EmbeddedResource Include="Images\Placeables\FuelPoweredGenerator.webp" />
+    <EmbeddedResource Include="Images\Placeables\GarmentFabricator.webp" />
+    <EmbeddedResource Include="Images\Placeables\ImprovedBloodPurifier.webp" />
+    <EmbeddedResource Include="Images\Placeables\LargeOreRefinery.webp" />
+    <EmbeddedResource Include="Images\Placeables\LargeSpiceRefinery.webp" />
+    <EmbeddedResource Include="Images\Placeables\LargeWaterCistern.webp" />
+    <EmbeddedResource Include="Images\Placeables\LargeWindtrap.webp" />
+    <EmbeddedResource Include="Images\Placeables\MediumChemicalRefinery.webp" />
+    <EmbeddedResource Include="Images\Placeables\MediumOreRefinery.webp" />
+    <EmbeddedResource Include="Images\Placeables\MediumSpiceRefinery.webp" />
+    <EmbeddedResource Include="Images\Placeables\MediumStorageContainer.webp" />
+    <EmbeddedResource Include="Images\Placeables\MediumWaterCistern.webp" />
+    <EmbeddedResource Include="Images\Placeables\Recycler.webp" />
+    <EmbeddedResource Include="Images\Placeables\RepairStation.webp" />
+    <EmbeddedResource Include="Images\Placeables\SmallChemicalRefinery.webp" />
+    <EmbeddedResource Include="Images\Placeables\SmallOreRefinery.webp" />
+    <EmbeddedResource Include="Images\Placeables\SmallStorageContainer.webp" />
+    <EmbeddedResource Include="Images\Placeables\SpicePoweredGenerator.webp" />
+    <EmbeddedResource Include="Images\Placeables\SpiceRefinery.webp" />
+    <EmbeddedResource Include="Images\Placeables\StorageContainer.webp" />
+    <EmbeddedResource Include="Images\Placeables\SubFiefConsole.webp" />
+    <EmbeddedResource Include="Images\Placeables\SurvivalFabricator.webp" />
+    <EmbeddedResource Include="Images\Placeables\VehiclesFabricator.webp" />
+    <EmbeddedResource Include="Images\Placeables\WeaponsFabricator.webp" />
+    <EmbeddedResource Include="Images\Placeables\Windtrap.webp" />
+    <EmbeddedResource Include="Images\Placeables\WindTurbine.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Images\Items\" />
   </ItemGroup>
 
 </Project>

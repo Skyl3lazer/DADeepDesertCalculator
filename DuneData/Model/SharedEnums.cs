@@ -14,8 +14,11 @@
     }
     public enum FuelType
     {
-        Lubricant,
-        Filter,
-        FuelCell
+        IndustrialLubricant,
+        SmallFilter,
+        LargeFilter,
+        LowLubricant,
+        FuelCell,
+        SpiceFuelCell
     }
 }
