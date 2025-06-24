@@ -21,8 +21,7 @@
     <script src="_framework/blazor.web.js"></script>
     <script src="@Assets["_content/MudBlazor/MudBlazor.min.js"]"></script>
     <script>
-        window.setSource = async (elementId, stream, contentType, title) => {
-          const arrayBuffer = await stream.arrayBuffer();
+        window.setSource = async (elementId, arrayBuffer, contentType, title) => {
           let blobOptions = {};
           if (contentType) {
             blobOptions['type'] = contentType;

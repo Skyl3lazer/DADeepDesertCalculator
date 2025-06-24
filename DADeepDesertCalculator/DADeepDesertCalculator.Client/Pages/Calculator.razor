@@ -17,21 +17,22 @@
     </div>
     <div>
         <h3>Storage Amounts</h3>
-        <span>Water:</span> <span>@(SelectedBuildings.Where(a => a.Key.Type == BuildingType.Storage)
-        .ToDictionary(x => (Storage)x.Key, x => x.Value).Where(y => y.Key.SType == StorageType.Water)
+        <span>Water:</span> <span>
+            @(SelectedBuildings.Where(a => a.Key.Type == BuildingType.Storage)
+                    .ToDictionary(x => (Storage)x.Key, x => x.Value).Where(y => y.Key.SType == StorageType.Water)
                     .Sum(b => b.Value * b.Key.StorageAmount).ToString("N0"))
-    </span>
-    <span>Volume: </span><span>
+                                                                        </span>
+                                                                        <span>Volume: </span><span>
             @(SelectedBuildings.Where(a => a.Key.Type == BuildingType.Storage)
                     .ToDictionary(x => (Storage)x.Key, x => x.Value).Where(y => y.Key.SType == StorageType.Volume)
                     .Sum(b => b.Value * b.Key.StorageAmount).ToString("N0"))
     </span>
-    </div>
-    <div class="@(PowerDraw < 0 ? "mud-theme-error" : "mud-theme-primary")">
-        <span class="fa fa-bolt" />
-        <span>@(PowerDraw)</span>
-    </div>
-    @if (SelectedBuildings.Keys.Any(a => a.Name.EndsWith("Pentashield")))
+</div>
+<div class="@(PowerDraw < 0 ? "mud-theme-error" : "mud-theme-primary")">
+    <span class="fa fa-bolt" />
+    <span>@(PowerDraw)</span>
+</div>
+@if (SelectedBuildings.Keys.Any(a => a.Name.EndsWith("Pentashield")))
     {
         <div>
             <span class="fa fa-triangle-exclamation" /> <span>Base contains Pentashields, which are not included in the power calculation.</span>
@@ -73,7 +74,7 @@
             </MudSelect>
 
             <MudSelect T="Building" SelectedValuesChanged="(e) => SelectedValueChanged(e)" FullWidth=false @ref="BuildingSelectField" Placeholder="Select a Building">
-                @foreach (var building in Buildings.Where(a => !SelectedBuildings.Keys.Contains(a) && (a.Type == BuildingTypeFilterSelect || BuildingTypeFilterSelect == BuildingType.None)))
+                @foreach (var building in Buildings.Where(a => !SelectedBuildings.Keys.Contains(a) && (a.Type == BuildingTypeFilterSelect || BuildingTypeFilterSelect == BuildingType.None)).OrderBy(b => b.Name))
                 {
                     <MudSelectItem Value="building">@(building.Name)</MudSelectItem>
                 }
@@ -81,7 +82,7 @@
         </div>
     </div>
 
-    <MudDataGrid Items="@SelectedBuildings.Keys.OrderBy(a => a.Name)">
+    <MudDataGrid Items="@SelectedBuildings.Keys">
         <Columns>
             <TemplateColumn>
                 <CellTemplate>
@@ -123,7 +124,6 @@
                     <CellTemplate>
                         <MudStack Row>
                             <img width="50" height="50" class="rounded-lg" id="@(context.Item.Id)-image" />
-                            <span style="display:none;">@SetImageAsync(context.Item.Image, context.Item.Id + "-image", context.Item.Name);</span>
                         </MudStack>
                     </CellTemplate>
                 </TemplateColumn>
@@ -144,6 +144,8 @@ else
 @code {
     IEnumerable<Building>? Buildings;
     IEnumerable<Item>? Items;
+
+    Dictionary<string, byte[]> ImageCache = new();
 
     MudSelect<Building> BuildingSelectField = new();
 
@@ -196,12 +198,34 @@ else
         Buildings = await dataService.GetBuildingsAsync(Items);
     }
 
+    protected override void OnAfterRender(bool firstRender)
+    {
+        foreach (var item in SelectedBuildings)
+            SetImageAsync(item.Key.Image, item.Key.Id + "-image", item.Key.Name);
+
+        foreach (var item in RequiredResources)
+            SetImageAsync(item.Key.Image, item.Key.Id + "-image", item.Key.Name);
+    }
+
     private async Task SetImageAsync(string path, string element, string title)
     {
         if (string.IsNullOrEmpty(path)) return;
-        var imageStream = dataService.GetImageStream(path);
-        var strRef = new DotNetStreamReference(imageStream);
-        await JS.InvokeVoidAsync("setSource", element, strRef, "image/webp", title);
+        byte[] blob;
+        if (ImageCache.ContainsKey(path))
+        {
+            blob = ImageCache[path];
+        }
+        else
+        {
+            var imageStream = dataService.GetImageStream(path);
+            using (var memoryStream = new MemoryStream())
+            {
+                imageStream.CopyTo(memoryStream);
+                blob = memoryStream.ToArray();
+                ImageCache.Add(path, blob);
+            }
+        }
+        await JS.InvokeVoidAsync("setSource", element, blob, "image/webp", title);
     }
 
     private void AddBuilding(Building add)
@@ -240,7 +264,7 @@ else
         {
             AddBuilding(value);
             BuildingSelectField.ClearAsync();
-            SetImageAsync(value.Image, value.Id + "-image", value.Name);
+            //SetImageAsync(value.Image, value.Id + "-image", value.Name);
         }
         StateHasChanged();
     }
