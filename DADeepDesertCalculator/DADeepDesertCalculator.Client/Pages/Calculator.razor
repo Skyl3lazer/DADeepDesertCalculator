@@ -1,5 +1,5 @@
 ﻿@page "/calculator"
-@rendermode InteractiveAuto
+@rendermode InteractiveServer
 
 @using DuneData.Data;
 @using DuneData.Model;
@@ -15,30 +15,73 @@
         <span>Current Limits: Production: </span><span>@(CurrentProduction)</span><span>/</span><span>@(StakingCount* ProductionStakingBonus + ProductionLimitBase)</span>
         <span>Storage: </span><span>@(CurrentStorage)</span><span>/</span><span>@(StakingCount* StorageStakingBonus + StorageLimitBase)</span>
     </div>
+    <div>
+        <h3>Storage Amounts</h3>
+        <span>Water:</span> <span>@(SelectedBuildings.Where(a => a.Key.Type == BuildingType.Storage)
+        .ToDictionary(x => (Storage)x.Key, x => x.Value).Where(y => y.Key.SType == StorageType.Water)
+                    .Sum(b => b.Value * b.Key.StorageAmount).ToString("N0"))
+    </span>
+    <span>Volume: </span><span>
+            @(SelectedBuildings.Where(a => a.Key.Type == BuildingType.Storage)
+                    .ToDictionary(x => (Storage)x.Key, x => x.Value).Where(y => y.Key.SType == StorageType.Volume)
+                    .Sum(b => b.Value * b.Key.StorageAmount).ToString("N0"))
+    </span>
+    </div>
     <div class="@(PowerDraw < 0 ? "mud-theme-error" : "mud-theme-primary")">
         <span class="fa fa-bolt" />
         <span>@(PowerDraw)</span>
     </div>
-    @if(SelectedBuildings.Keys.Any(a => a.Name.EndsWith("Pentashield")))
+    @if (SelectedBuildings.Keys.Any(a => a.Name.EndsWith("Pentashield")))
     {
         <div>
-            <span class="fa fa-triangle-exclamation" /><span>Base contains Pentashields, which are not included in the power calculation.</span>
+            <span class="fa fa-triangle-exclamation" /> <span>Base contains Pentashields, which are not included in the power calculation.</span>
+        </div>
+    }
+
+    @if (!SelectedBuildings.Keys.Any(a => a.Name.EndsWith("Console")))
+    {
+        <div>
+            <span class="fa fa-triangle-exclamation" /> <span>Base does not have a Sub-Fief Console.</span>
+        </div>
+    }
+    @if (SelectedBuildings.Where(a => a.Key.Name.EndsWith("Sub-Fief Console")).Sum(b => b.Value) > 1)
+    {
+        <div>
+            <span class="fa fa-triangle-exclamation" /> <span>Base has multiple Sub-Fief Consoles.</span>
+        </div>
+    }
+    @if (SelectedBuildings.Keys.Any(a => a.Name.Equals("Sub-Fief Console")) && SelectedBuildings.Keys.Any(a => a.Name.EndsWith("Staking Unit")))
+    {
+        <div>
+            <span class="fa fa-triangle-exclamation" /> <span>Base has Staking Units but a basic Sub-Fief Console.</span>
         </div>
     }
     <div>
         <span>Deep Desert Base:</span> <input type="checkbox" @bind-value=DeepDesertBase />
     </div>
 
-    <div>
-        <span>Add a Building:</span> <MudSelect T="Building" SelectedValuesChanged="(e) => SelectedValueChanged(e)" @ref="BuildingSelectField" Placeholder="Select a Building">
-            @foreach (var building in Buildings.Where(a => !SelectedBuildings.Keys.Contains(a)))
-            {
-                <MudSelectItem Value="building">@(building.Name)</MudSelectItem>
-            }
-        </MudSelect>
+    <div class="d-block">
+        <div>Add a Building:</div>
+        <div class="d-inline">
+            <MudSelect T="BuildingType" @bind-Value="BuildingTypeFilterSelect" FullWidth=false SelectedValuesChanged="() => StateHasChanged()">
+                <MudSelectItem Value="BuildingType.None">All</MudSelectItem>
+                <MudSelectItem Value="BuildingType.Fabricator">Fabricators</MudSelectItem>
+                <MudSelectItem Value="BuildingType.Storage">Storage</MudSelectItem>
+                <MudSelectItem Value="BuildingType.Refinery">Refinery</MudSelectItem>
+                <MudSelectItem Value="BuildingType.StakingUnit">Staking Unit</MudSelectItem>
+                <MudSelectItem Value="BuildingType.Utility">Utility</MudSelectItem>
+            </MudSelect>
+
+            <MudSelect T="Building" SelectedValuesChanged="(e) => SelectedValueChanged(e)" FullWidth=false @ref="BuildingSelectField" Placeholder="Select a Building">
+                @foreach (var building in Buildings.Where(a => !SelectedBuildings.Keys.Contains(a) && (a.Type == BuildingTypeFilterSelect || BuildingTypeFilterSelect == BuildingType.None)))
+                {
+                    <MudSelectItem Value="building">@(building.Name)</MudSelectItem>
+                }
+            </MudSelect>
+        </div>
     </div>
 
-    <MudDataGrid Items="@SelectedBuildings.Keys">
+    <MudDataGrid Items="@SelectedBuildings.Keys.OrderBy(a => a.Name)">
         <Columns>
             <TemplateColumn>
                 <CellTemplate>
@@ -68,13 +111,13 @@
         </Columns>
     </MudDataGrid>
     <div>
-        <div>
-        Required Volume: @(RequiredResources.Sum(a => Math.Ceiling(a.Value * a.Key.Volume * DDMulti)))V
-        </div>
-        <div>
-        Required Materials:
-        </div>
-        <MudDataGrid Items="@RequiredResources.Keys" >
+        <h2>
+            Required Volume: @(RequiredResources.Sum(a => Math.Ceiling(a.Value * a.Key.Volume * DDMulti)))V
+        </h2>
+        <h3>
+            Required Materials:
+        </h3>
+        <MudDataGrid Items="@RequiredResources.Keys.OrderByDescending(a => RequiredResources[a])">
             <Columns>
                 <TemplateColumn>
                     <CellTemplate>
@@ -92,15 +135,6 @@
         </MudDataGrid>
     </div>
 
-    @* Required *@
-    <MudThemeProvider />
-    <MudPopoverProvider />
-
-    @* Needed for dialogs *@
-    <MudDialogProvider />
-
-    @* Needed for snackbars *@
-    <MudSnackbarProvider />
 }
 else
 {
@@ -121,12 +155,14 @@ else
     int ProductionStakingBonus = 8;
     int StorageStakingBonus = 15;
 
-    int CurrentProduction => SelectedBuildings.Where(a => a.Key.Type == BuildingType.Refinery || a.Key.Type == BuildingType.Utility || a.Key.Type == BuildingType.Fabricator).Sum(b => b.Value);
+    int CurrentProduction => SelectedBuildings.Where(a => (a.Key.Type == BuildingType.Refinery || a.Key.Type == BuildingType.Utility || a.Key.Type == BuildingType.Fabricator) && !a.Key.Name.Contains("Sub-Fief") && !a.Key.Name.Contains("Pentashield")).Sum(b => b.Value);
     int CurrentStorage => SelectedBuildings.Where(a => a.Key.Type == BuildingType.Storage).Sum(b => b.Value);
 
     int StakingCount => SelectedBuildings.Where(a => a.Key.Type == BuildingType.StakingUnit).Sum(b => b.Value);
 
     int PowerDraw => SelectedBuildings.Sum(a => a.Value * a.Key.PowerDraw);
+
+    BuildingType BuildingTypeFilterSelect = BuildingType.None;
 
     Dictionary<Item, int> RequiredResources
     {
@@ -146,11 +182,11 @@ else
     }
 
     bool DeepDesertBase = false;
-    double DDMulti
+    decimal DDMulti
     {
         get
         {
-            return (DeepDesertBase ? 0.5 : 1);
+            return (DeepDesertBase ? 0.5m : 1);
         }
     }
 

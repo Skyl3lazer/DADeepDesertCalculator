@@ -10,7 +10,7 @@ namespace DuneData.Model
 {
     public class Material : Item
     {
-        public Material(string name, double vol, string image) : base(name, vol, ItemType.Material, image)
+        public Material(string name, decimal vol, string image) : base(name, vol, ItemType.Material, image)
         {
             
         }
