@@ -1,6 +1,6 @@
 ﻿@page "/vehiclecalculator"
-@rendermode InteractiveServer
 
+@using DADeepDesertCalculator.Client.Components
 @using DuneData.Data;
 @using DuneData.Model;
 
@@ -9,20 +9,13 @@
 
 <h3>Vehicle Construction Calculator</h3>
 
-@if (Vehicles != null && Items != null)
+@if (Vehicles != null && Items != null && Parts != null)
 {
-
-    @if (SelectedVehicles.Keys.Any(a => a.Name.EndsWith("Pentashield")))
-    {
-        <div>
-            <span class="fa fa-triangle-exclamation" /> <span>Base contains Pentashields, which are not included in the power calculation.</span>
-        </div>
-    }
     <div class="d-block">
         <div>Add a Vehicle:</div>
         <div class="d-inline">
             <MudSelect T="Vehicle" @bind-Value="VehicleSelectField" FullWidth=false>
-                @foreach(Vehicle vehicle in Vehicles)
+                @foreach (Vehicle vehicle in Vehicles)
                 {
                     <MudSelectItem Value="vehicle">@vehicle.DisplayName</MudSelectItem>
                 }
@@ -31,18 +24,18 @@
             <MudButton OnClick="() => AddVehicle(VehicleSelectField)">Add Vehicle</MudButton>
         </div>
     </div>
-    <MudDataGrid Items="@SelectedVehicles.Keys">
+    <MudDataGrid Items="@SelectedVehicles.Keys" ReadOnly=false EditMode="DataGridEditMode.Cell" EditTrigger="DataGridEditTrigger.OnRowClick" ExpandSingleRow=true>
         <Columns>
-            <HierarchyColumn T="Vehicle" />
-            <TemplateColumn>
+            <HierarchyColumn T="Vehicle"  />
+            <TemplateColumn Editable=false>
                 <CellTemplate>
                     <MudStack Row>
-                        <img width="50" height="50" class="rounded-lg" id="@(context.Item.Id)-image" />
+                        <img width="50" height="50" class="rounded-lg @(context.Item.Id)-image" />
                     </MudStack>
                 </CellTemplate>
             </TemplateColumn>
-            <PropertyColumn Property="x => x.Name" />
-            <TemplateColumn>
+            <PropertyColumn Property="x => x.DisplayName" Title="Name"/>
+            <TemplateColumn Editable=false>
                 <CellTemplate>
                     <MudStack Row>
                         @if (SelectedVehicles[context.Item] > 1)
@@ -66,6 +59,20 @@
                         <MudText Typo="Typo.subtitle1">@context.Item.Type.ToDescriptionString()</MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
+                <MudCardContent>
+                    @foreach (var typeKVP in context.Item.RequiredParts.Where(a => a.Key != PartType.Utility))
+                    {
+                        <span>
+                            @(typeKVP.Value)x
+                            @{
+                                var part = Parts.FirstOrDefault(a => a.ForVehicleType == context.Item.Type && a.Type == typeKVP.Key);
+                                string id = part?.Id.ToString() ?? "";
+                                <img width="50" height="50" class="rounded-lg @(id + "-image")" />
+                            }
+                        </span>
+                        <MudHistorySelect TValue="Part" Options="Parts.Where(a => a.ForVehicleType == context.Item.Type && a.Type == typeKVP.Key).ToDictionary(x => x, x => x.Name)" OnValueChanged="(e) => PartChanged(e, context.Item)" />
+                    }
+                </MudCardContent>
             </MudCard>
         </ChildRowContent>
     </MudDataGrid>
@@ -81,7 +88,7 @@
                 <TemplateColumn>
                     <CellTemplate>
                         <MudStack Row>
-                            <img width="50" height="50" class="rounded-lg" id="@(context.Item.Id)-image" />
+                            <img width="50" height="50" class="rounded-lg @(context.Item.Id)-image" />
                         </MudStack>
                     </CellTemplate>
                 </TemplateColumn>
@@ -121,12 +128,20 @@ else
             var temp = new Dictionary<Guid, int>();
             foreach (var vlc in SelectedVehicles)
             {
-                foreach (var part in vlc.Key.ChosenParts)
+                foreach (var part in vlc.Key.ChosenParts.Where(a => a.Type != PartType.Utility))
                 {
-                    foreach (var mat in part.Key.Materials.Keys)
+                    foreach (var mat in part.Materials.Keys)
                     {
-                        if (temp.ContainsKey(mat)) temp[mat] += (part.Key.Materials[mat] * part.Value);
-                        else temp.Add(mat, (part.Key.Materials[mat] * part.Value * vlc.Value));
+                        if (temp.ContainsKey(mat)) temp[mat] += (part.Materials[mat] * vlc.Key.RequiredParts[part.Type] * vlc.Value);
+                        else temp.Add(mat, (part.Materials[mat] * vlc.Key.RequiredParts[part.Type] * vlc.Value));
+                    }
+                }
+                foreach (var part in vlc.Key.ChosenParts.Where(a => a.Type == PartType.Utility))
+                {
+                    foreach (var mat in part.Materials.Keys)
+                    {
+                        if (temp.ContainsKey(mat)) temp[mat] += (part.Materials[mat] * vlc.Value);
+                        else temp.Add(mat, (part.Materials[mat] * vlc.Value));
                     }
                 }
             }
@@ -150,9 +165,8 @@ else
         foreach (var item in RequiredResources)
             SetImageAsync(item.Key.Image, item.Key.Id + "-image", item.Key.Name);
 
-        if (CurrentVehicle != null)
-            foreach (var item in CurrentVehicle.ChosenParts)
-                SetImageAsync(item.Key.Image, item.Key.Id + "-image", item.Key.Name);
+        foreach (var item in Parts)
+            SetImageAsync(item.Image, item.Id + "-image", item.Name);
     }
 
     private async Task SetImageAsync(string path, string element, string title)
@@ -175,7 +189,15 @@ else
         }
         await JS.InvokeVoidAsync("setSource", element, blob, "image/webp", title);
     }
-
+    private void PartChanged(Tuple<IEnumerable<Part>, IEnumerable<Part>> e, Vehicle v)
+    {
+        var oldParts = e.Item1;
+        var newParts = e.Item2;
+        if(oldParts != null)
+            v.ChosenParts = v.ChosenParts.Where(a => !oldParts.Contains(a)).Concat(newParts);
+        else
+            v.ChosenParts = v.ChosenParts.Concat(newParts);
+    }
     private void AddVehicle(Vehicle? add)
     {
         if (add == null) return;
@@ -186,7 +208,7 @@ else
         }
         else
         {
-            SelectedVehicles.Add(add, 1);
+            SelectedVehicles.Add(add.Clone(), 1);
         }
     }
 
@@ -206,4 +228,6 @@ else
         if (SelectedVehicles.ContainsKey(remove))
             SelectedVehicles.Remove(remove);
     }
+
+    
 }

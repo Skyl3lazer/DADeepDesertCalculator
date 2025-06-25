@@ -421,7 +421,16 @@ namespace DuneData.Data
                     { MaterialDictionary["Particle Capacitor"], 3 }
                 }, new(), imagePath:ImageBase+"SandbikeEngine.webp"),
 
-                
+                ///
+                // PSU
+                ///
+
+                new PowerPart("Sandbike PSU Mk1", VehicleType.Motorcycle, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Copper Ingot"], 5 },
+                    { MaterialDictionary["Particle Capacitor"], 3 }
+                }, new(), imagePath:ImageBase+"SandbikePsu.webp"),
+
                 ///
                 // Utility
                 ///

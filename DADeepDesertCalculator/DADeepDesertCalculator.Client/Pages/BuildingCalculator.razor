@@ -1,5 +1,4 @@
 ﻿@page "/buildingcalculator"
-@rendermode InteractiveServer
 
 @using DuneData.Data;
 @using DuneData.Model;
@@ -87,12 +86,11 @@
             <TemplateColumn>
                 <CellTemplate>
                     <MudStack Row>
-                        <img width="50" height="50" class="rounded-lg" id="@(context.Item.Id)-image" />
+                        <img width="50" height="50" class="rounded-lg @(context.Item.Id)-image" />
                     </MudStack>
                 </CellTemplate>
             </TemplateColumn>
             <PropertyColumn Property="x => x.Name" />
-            <PropertyColumn Property="x => SelectedBuildings[x]" Title="Number" />
             <TemplateColumn>
                 <CellTemplate>
                     <MudStack Row>
@@ -123,7 +121,7 @@
                 <TemplateColumn>
                     <CellTemplate>
                         <MudStack Row>
-                            <img width="50" height="50" class="rounded-lg" id="@(context.Item.Id)-image" />
+                            <img width="50" height="50" class="rounded-lg @(context.Item.Id)-image" />
                         </MudStack>
                     </CellTemplate>
                 </TemplateColumn>

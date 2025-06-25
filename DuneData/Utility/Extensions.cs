@@ -9,6 +9,11 @@ namespace DuneData.Extensions
     }
     public static class SystemExtension
     {
+        public static T Clone<T>(this T source)
+        {
+            var serialized = JsonSerializer.Serialize(source);
+            return JsonSerializer.Deserialize<T>(serialized);
+        }
         /// <summary>
         /// Returns a descriptive string when printed, or the name of the enum
         /// </summary>
