@@ -1,0 +1,209 @@
+﻿@page "/vehiclecalculator"
+@rendermode InteractiveServer
+
+@using DuneData.Data;
+@using DuneData.Model;
+
+@inject DuneDataService dataService;
+@inject IJSRuntime JS
+
+<h3>Vehicle Construction Calculator</h3>
+
+@if (Vehicles != null && Items != null)
+{
+
+    @if (SelectedVehicles.Keys.Any(a => a.Name.EndsWith("Pentashield")))
+    {
+        <div>
+            <span class="fa fa-triangle-exclamation" /> <span>Base contains Pentashields, which are not included in the power calculation.</span>
+        </div>
+    }
+    <div class="d-block">
+        <div>Add a Vehicle:</div>
+        <div class="d-inline">
+            <MudSelect T="Vehicle" @bind-Value="VehicleSelectField" FullWidth=false>
+                @foreach(Vehicle vehicle in Vehicles)
+                {
+                    <MudSelectItem Value="vehicle">@vehicle.DisplayName</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudButton OnClick="() => AddVehicle(VehicleSelectField)">Add Vehicle</MudButton>
+        </div>
+    </div>
+    <MudDataGrid Items="@SelectedVehicles.Keys">
+        <Columns>
+            <HierarchyColumn T="Vehicle" />
+            <TemplateColumn>
+                <CellTemplate>
+                    <MudStack Row>
+                        <img width="50" height="50" class="rounded-lg" id="@(context.Item.Id)-image" />
+                    </MudStack>
+                </CellTemplate>
+            </TemplateColumn>
+            <PropertyColumn Property="x => x.Name" />
+            <TemplateColumn>
+                <CellTemplate>
+                    <MudStack Row>
+                        @if (SelectedVehicles[context.Item] > 1)
+                        {
+                            <MudIconButton Color="Color.Primary" Icon="fas fa-minus" Size="Size.Small" OnClick="(e) => SubtractVehicle(context.Item)" />
+                        }
+                        else
+                        {
+                            <MudIconButton Color="Color.Primary" Icon="fas fa-trash" Size="Size.Small" OnClick="(e) => RemoveVehicle(context.Item)" />
+                        }
+                        <span>@SelectedVehicles[context.Item]</span><MudIconButton Color="Color.Primary" Icon="fas fa-plus" Size="Size.Small" OnClick="(e) => AddVehicle(context.Item)" />
+                    </MudStack>
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+        <ChildRowContent>
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">@context.Item.DisplayName</MudText>
+                        <MudText Typo="Typo.subtitle1">@context.Item.Type.ToDescriptionString()</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+            </MudCard>
+        </ChildRowContent>
+    </MudDataGrid>
+    <div>
+        <h2>
+            Required Volume: @(RequiredResources.Sum(a => Math.Ceiling(a.Value * a.Key.Volume)))V
+        </h2>
+        <h3>
+            Required Materials:
+        </h3>
+        <MudDataGrid Items="@RequiredResources.Keys.OrderByDescending(a => RequiredResources[a])">
+            <Columns>
+                <TemplateColumn>
+                    <CellTemplate>
+                        <MudStack Row>
+                            <img width="50" height="50" class="rounded-lg" id="@(context.Item.Id)-image" />
+                        </MudStack>
+                    </CellTemplate>
+                </TemplateColumn>
+                <PropertyColumn Property="x => x.Name" />
+                <PropertyColumn Property="x => RequiredResources[x]" Title="Number" />
+                <PropertyColumn Property="x => x.Volume" Title="Volume/ea" />
+                <PropertyColumn Property="x => x.Volume * RequiredResources[x]" Title="Total Vol." />
+            </Columns>
+        </MudDataGrid>
+
+    </div>
+
+}
+else
+{
+    <div>Loading...</div>
+}
+
+@code {
+    IEnumerable<Vehicle>? Vehicles;
+    IEnumerable<Item>? Items;
+    IEnumerable<Part>? Parts;
+
+    Dictionary<string, byte[]> ImageCache = new();
+
+    Dictionary<Vehicle, int> SelectedVehicles = new();
+
+    Vehicle? CurrentVehicle;
+
+    Vehicle? VehicleSelectField;
+    PartType PartTypeFilterSelect = PartType.None;
+
+    Dictionary<Item, int> RequiredResources
+    {
+        get
+        {
+            var temp = new Dictionary<Guid, int>();
+            foreach (var vlc in SelectedVehicles)
+            {
+                foreach (var part in vlc.Key.ChosenParts)
+                {
+                    foreach (var mat in part.Key.Materials.Keys)
+                    {
+                        if (temp.ContainsKey(mat)) temp[mat] += (part.Key.Materials[mat] * part.Value);
+                        else temp.Add(mat, (part.Key.Materials[mat] * part.Value * vlc.Value));
+                    }
+                }
+            }
+            return temp.ToDictionary(x => Items!.First(a => a.Id == x.Key), x => x.Value);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Items = await dataService.GetItemsAsync();
+        Vehicles = await dataService.GetVehiclesAsync();
+        Parts = await dataService.GetPartsAsync();
+        VehicleSelectField = Vehicles?.FirstOrDefault();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        foreach (var item in SelectedVehicles)
+            SetImageAsync(item.Key.Image, item.Key.Id + "-image", item.Key.Name);
+
+        foreach (var item in RequiredResources)
+            SetImageAsync(item.Key.Image, item.Key.Id + "-image", item.Key.Name);
+
+        if (CurrentVehicle != null)
+            foreach (var item in CurrentVehicle.ChosenParts)
+                SetImageAsync(item.Key.Image, item.Key.Id + "-image", item.Key.Name);
+    }
+
+    private async Task SetImageAsync(string path, string element, string title)
+    {
+        if (string.IsNullOrEmpty(path)) return;
+        byte[] blob;
+        if (ImageCache.ContainsKey(path))
+        {
+            blob = ImageCache[path];
+        }
+        else
+        {
+            var imageStream = dataService.GetImageStream(path);
+            using (var memoryStream = new MemoryStream())
+            {
+                imageStream.CopyTo(memoryStream);
+                blob = memoryStream.ToArray();
+                ImageCache.Add(path, blob);
+            }
+        }
+        await JS.InvokeVoidAsync("setSource", element, blob, "image/webp", title);
+    }
+
+    private void AddVehicle(Vehicle? add)
+    {
+        if (add == null) return;
+
+        if (SelectedVehicles.ContainsKey(add))
+        {
+            SelectedVehicles[add] += 1;
+        }
+        else
+        {
+            SelectedVehicles.Add(add, 1);
+        }
+    }
+
+    private void SubtractVehicle(Vehicle subtract)
+    {
+        if (SelectedVehicles.ContainsKey(subtract))
+        {
+            SelectedVehicles[subtract] -= 1;
+
+            if (SelectedVehicles[subtract] <= 0)
+                SelectedVehicles.Remove(subtract);
+        }
+    }
+
+    private void RemoveVehicle(Vehicle remove)
+    {
+        if (SelectedVehicles.ContainsKey(remove))
+            SelectedVehicles.Remove(remove);
+    }
+}

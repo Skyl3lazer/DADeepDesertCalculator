@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>1.0.25174.36</AssemblyVersion>
+    <AssemblyVersion>1.0.25176.9</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -78,6 +78,15 @@
     <None Remove="Images\Items\ThermoResponsiveRayAmplifier.webp" />
     <None Remove="Images\Items\TriForgedHydraulicPiston.webp" />
     <None Remove="Images\Items\water.webp" />
+    <None Remove="Images\Parts\SandbikeBackseat.webp" />
+    <None Remove="Images\Parts\SandbikeBooster.webp" />
+    <None Remove="Images\Parts\SandbikeChassis.webp" />
+    <None Remove="Images\Parts\SandbikeEngine.webp" />
+    <None Remove="Images\Parts\SandbikeHull.webp" />
+    <None Remove="Images\Parts\SandbikeInventory.webp" />
+    <None Remove="Images\Parts\SandbikePsu.webp" />
+    <None Remove="Images\Parts\SandbikeScanner.webp" />
+    <None Remove="Images\Parts\SandbikeTread.webp" />
     <None Remove="Images\Placeables\AdvancedFremenDeathstill.webp" />
     <None Remove="Images\Placeables\AdvancedGarmentFabricator.webp" />
     <None Remove="Images\Placeables\AdvancedSubfiefConsole.webp" />
@@ -117,6 +126,7 @@
     <None Remove="Images\Placeables\WeaponsFabricator.webp" />
     <None Remove="Images\Placeables\Windtrap.webp" />
     <None Remove="Images\Placeables\WindTurbine.webp" />
+    <None Remove="Images\Vehicles\Sandbike.webp" />
   </ItemGroup>
 
   <ItemGroup>
@@ -190,6 +200,15 @@
     <EmbeddedResource Include="Images\Items\ThermoResponsiveRayAmplifier.webp" />
     <EmbeddedResource Include="Images\Items\TriForgedHydraulicPiston.webp" />
     <EmbeddedResource Include="Images\Items\water.webp" />
+    <EmbeddedResource Include="Images\Parts\SandbikeBackseat.webp" />
+    <EmbeddedResource Include="Images\Parts\SandbikeBooster.webp" />
+    <EmbeddedResource Include="Images\Parts\SandbikeChassis.webp" />
+    <EmbeddedResource Include="Images\Parts\SandbikeEngine.webp" />
+    <EmbeddedResource Include="Images\Parts\SandbikeHull.webp" />
+    <EmbeddedResource Include="Images\Parts\SandbikeInventory.webp" />
+    <EmbeddedResource Include="Images\Parts\SandbikePsu.webp" />
+    <EmbeddedResource Include="Images\Parts\SandbikeScanner.webp" />
+    <EmbeddedResource Include="Images\Parts\SandbikeTread.webp" />
     <EmbeddedResource Include="Images\Placeables\AdvancedFremenDeathstill.webp">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -232,6 +251,7 @@
     <EmbeddedResource Include="Images\Placeables\WeaponsFabricator.webp" />
     <EmbeddedResource Include="Images\Placeables\Windtrap.webp" />
     <EmbeddedResource Include="Images\Placeables\WindTurbine.webp" />
+    <EmbeddedResource Include="Images\Vehicles\Sandbike.webp" />
   </ItemGroup>
 
 </Project>

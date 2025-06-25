@@ -1,4 +1,4 @@
-﻿@page "/calculator"
+﻿@page "/buildingcalculator"
 @rendermode InteractiveServer
 
 @using DuneData.Data;
@@ -195,7 +195,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         Items = await dataService.GetItemsAsync();
-        Buildings = await dataService.GetBuildingsAsync(Items);
+        Buildings = await dataService.GetBuildingsAsync();
     }
 
     protected override void OnAfterRender(bool firstRender)

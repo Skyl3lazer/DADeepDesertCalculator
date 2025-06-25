@@ -5,10 +5,11 @@ namespace DuneData.Data
 {
     public class DuneDataService
     {
-        public Task<IEnumerable<Building>> GetBuildingsAsync(IEnumerable<Item> materials)
+        static readonly IEnumerable<Item> ItemList = GetItemsStatic();
+        static readonly Dictionary<string, Guid> MaterialDictionary = ItemList.ToDictionary(x => x.Name, x => x.Id);
+        public Task<IEnumerable<Building>> GetBuildingsAsync()
         {
             string ImageBase = "DuneData.Images.Placeables.";
-            Dictionary<string, Guid> MaterialDictionary = materials.ToDictionary(x => x.Name, x => x.Id);
 
             IEnumerable<Building> buildings = new List<Building>()
             {
@@ -286,6 +287,11 @@ namespace DuneData.Data
         }
         public Task<IEnumerable<Item>> GetItemsAsync()
         {
+            Task<IEnumerable<Item>> result = Task.FromResult(ItemList);
+            return result;
+        }
+        public static IEnumerable<Item> GetItemsStatic()
+        {
             string ImageBase = "DuneData.Images.Items.";
             IEnumerable<Item> items = new List<Item>()
             {
@@ -375,9 +381,94 @@ namespace DuneData.Data
                 new Material("Tri-Forged Hydraulic Piston", 0.1m, ImageBase+"TriForgedHydraulicPiston.webp"),
 
             };
+            return items;
+        }
+        public Task<IEnumerable<Vehicle>> GetVehiclesAsync()
+        {
+            string ImageBase = "DuneData.Images.Vehicles.";
+            IEnumerable<Vehicle> vehicles = new List<Vehicle>()
+            {
+                new Vehicle("Sandbike", VehicleType.Motorcycle, new Dictionary<PartType, int>()
+                {
+                    { PartType.Chassis, 1},
+                    { PartType.Power, 1},
+                    { PartType.Front, 1},
+                    { PartType.Engine, 1},
+                    { PartType.Locomotion, 3}
+                }, ImageBase+"Sandbike.webp")
 
-            Task<IEnumerable<Item>> result = Task.FromResult(items);
 
+            };
+            Task<IEnumerable<Vehicle>> result = Task.FromResult(vehicles);
+            return result;
+        }
+        public Task<IEnumerable<Part>> GetPartsAsync()
+        {
+            string ImageBase = "DuneData.Images.Parts.";
+            IEnumerable<Part> parts = new List<Part>()
+            {
+                ////
+                //Sandbike
+                ////
+
+                ///
+                // Engines
+                ///
+
+                new EnginePart("Sandbike Engine Mk1", VehicleType.Motorcycle, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Copper Ingot"], 5 },
+                    { MaterialDictionary["Particle Capacitor"], 3 }
+                }, new(), imagePath:ImageBase+"SandbikeEngine.webp"),
+
+                
+                ///
+                // Utility
+                ///
+
+                new UtilityPart("Sandbike Booster Mk2", VehicleType.Motorcycle, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Iron Ingot"], 23 },
+                    { MaterialDictionary["Particle Capacitor"], 15 },
+                    { MaterialDictionary["Holtzman Actuator"], 15 }
+                }, UtilityPartType.Booster, imagePath:ImageBase+"SandbikeEngine.webp"),
+
+                ///
+                // Chassis
+                ///
+
+                new ChassisPart("Sandbike Chassis Mk1", VehicleType.Motorcycle, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Copper Ingot"], 12 },
+                    { MaterialDictionary["Advanced Servoks"], 5 }
+                }, new(), imagePath:ImageBase+"SandbikeChassis.webp"),
+
+                ///
+                // Hull
+                ///
+
+                new FrontPart("Sandbike Hull Mk1", VehicleType.Motorcycle, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Copper Ingot"], 12 },
+                    { MaterialDictionary["Advanced Servoks"], 5 }
+                }, new Dictionary<UtilityPartType, int>()
+                {
+                    { UtilityPartType.Scanner, 1},
+                    { UtilityPartType.Other, 1 }
+                }, imagePath:ImageBase+"SandbikeHull.webp"),
+
+                ///
+                // Treads
+                ///
+
+                new LocomotionPart("Sandbike Tread Mk1", VehicleType.Motorcycle, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Copper Ingot"], 3 },
+                    { MaterialDictionary["Advanced Servoks"], 1 }
+                }, new(), imagePath:ImageBase+"SandbikeTread.webp"),
+
+            };
+            Task<IEnumerable<Part>> result = Task.FromResult(parts);
             return result;
         }
         public Stream? GetImageStream(string path)

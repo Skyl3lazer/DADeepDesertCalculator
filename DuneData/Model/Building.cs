@@ -1,6 +1,6 @@
 ﻿namespace DuneData.Model
 {
-    public class Building
+    public abstract class Building
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public BuildingType Type { get; set; }

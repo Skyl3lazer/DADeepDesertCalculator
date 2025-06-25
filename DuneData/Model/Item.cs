@@ -1,6 +1,6 @@
 ﻿namespace DuneData.Model
 {
-    public class Item
+    public abstract class Item
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public decimal Volume { get; set; }
