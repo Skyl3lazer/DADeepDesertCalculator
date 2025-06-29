@@ -380,6 +380,14 @@ namespace DuneData.Data
                 new Material("Thermo-Responsive Ray Amplifier", 0.1m, ImageBase+"ThermoResponsiveRayAmplifier.webp"),
                 new Material("Tri-Forged Hydraulic Piston", 0.1m, ImageBase+"TriForgedHydraulicPiston.webp"),
 
+                //Spice Infused
+                new Material("Spice-infused Copper Dust", 0.1m, ImageBase+"SpiceInfusedCopperDust.webp"),
+                new Material("Spice-infused Iron Dust", 0.1m, ImageBase+"SpiceInfusedIronDust.webp"),
+                new Material("Spice-infused Steel Dust", 0.1m, ImageBase+"SpiceInfusedSteelDust.webp"),
+                new Material("Spice-infused Aluminum Dust", 0.1m, ImageBase+"SpiceInfusedAluminumDust.webp"),
+                new Material("Spice-infused Duraluminum Dust", 0.1m, ImageBase+"SpiceInfusedDuraluminumDust.webp"),
+                new Material("Spice-infused Plastanium Dust", 0.1m, ImageBase+"SpiceInfusedPlastaniumDust.webp"),
+
             };
             return items;
         }
@@ -395,8 +403,16 @@ namespace DuneData.Data
                     { PartType.Front, 1},
                     { PartType.Engine, 1},
                     { PartType.Locomotion, 3}
-                }, ImageBase+"Sandbike.webp")
+                }, ImageBase+"Sandbike.webp"),
 
+                new Vehicle("Harvester", VehicleType.Harvester, new Dictionary<PartType, int>()
+                {
+                    { PartType.Chassis, 1},
+                    { PartType.Power, 1},
+                    { PartType.Front, 1},
+                    { PartType.Engine, 1},
+                    { PartType.Locomotion, 2 }
+                }, ImageBase+"Sandcrawler.webp"),
 
             };
             Task<IEnumerable<Vehicle>> result = Task.FromResult(vehicles);
@@ -475,6 +491,141 @@ namespace DuneData.Data
                     { MaterialDictionary["Copper Ingot"], 3 },
                     { MaterialDictionary["Advanced Servoks"], 1 }
                 }, new(), imagePath:ImageBase+"SandbikeTread.webp"),
+
+                ////
+                //Harvester
+                ////
+
+                ///
+                // Engines
+                ///
+
+                new EnginePart("Sandcrawler Engine Mk6", VehicleType.Harvester, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Plastanium Ingot"], 60 },
+                    { MaterialDictionary["Cobalt Paste"], 45 },
+                    { MaterialDictionary["Particle Capacitor"], 18 },
+                    { MaterialDictionary["Complex Machinery"], 30 },
+                    { MaterialDictionary["Spice Melange"], 54 },
+                    { MaterialDictionary["Tri-Forged Hydraulic Piston"], 9 },
+                    { MaterialDictionary["Water"], 1050 }
+                }, new(), imagePath:ImageBase+"HarvesterEngine.webp"),
+
+                new EnginePart("Walker Sandcrawler Engine Mk6", VehicleType.Harvester, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Plastanium Ingot"], 100 },
+                    { MaterialDictionary["Cobalt Paste"], 77 },
+                    { MaterialDictionary["Particle Capacitor"], 31 },
+                    { MaterialDictionary["Advanced Machinery"], 30 },
+                    { MaterialDictionary["Spice Melange"], 186 },
+                    { MaterialDictionary["Spice-infused Plastanium Dust"], 31 },
+                    { MaterialDictionary["Tri-Forged Hydraulic Piston"], 15 },
+                    { MaterialDictionary["Water"], 1580 }
+                }, new(), imagePath:ImageBase+"HarvesterEngine.webp"),
+
+                ///
+                // Hull
+                ///
+
+                new FrontPart("Sandcrawler Cabin Mk6", VehicleType.Harvester, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Plastanium Ingot"], 13 },
+                    { MaterialDictionary["Advanced Servoks"], 30 },
+                    { MaterialDictionary["Cobalt Paste"], 27 },
+                    { MaterialDictionary["Armor Plating"], 45 },
+                    { MaterialDictionary["Spice Melange"], 54 },
+                    { MaterialDictionary["Water"], 1050 }
+                },new(), imagePath:ImageBase+"HarvesterCabin.webp"),
+
+                ///
+                // Treads
+                ///
+                new LocomotionPart("Sandcrawler Tread Mk6", VehicleType.Harvester, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Plastanium Ingot"], 15 },
+                    { MaterialDictionary["Advanced Servoks"], 9 },
+                    { MaterialDictionary["Cobalt Paste"], 12 },
+                    { MaterialDictionary["Spice Melange"], 14 },
+                    { MaterialDictionary["Water"], 250 }
+                }, new(), imagePath:ImageBase+"HarvesterTreads.webp"),
+
+                new LocomotionPart("Dampened Sandcrawler Treads", VehicleType.Harvester, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Plastanium Ingot"], 25 },
+                    { MaterialDictionary["Advanced Servoks"], 16 },
+                    { MaterialDictionary["Cobalt Paste"], 20 },
+                    { MaterialDictionary["Spice Melange"], 93 },
+                    { MaterialDictionary["Spice-infused Plastanium Dust"], 8 },
+                    { MaterialDictionary["Water"], 1580 }
+                }, new(), imagePath:ImageBase+"HarvesterTreads.webp"),
+
+                ///
+                // PSU
+                ///
+
+                new PowerPart("Sandcrawler PSU Mk6", VehicleType.Harvester, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Plastanium Ingot"], 60 },
+                    { MaterialDictionary["Particle Capacitor"], 36 },
+                    { MaterialDictionary["Cobalt Paste"], 45 },
+                    { MaterialDictionary["Spice Melange"], 54 },
+                    { MaterialDictionary["Overclocked Power Regulator"], 9 },
+                    { MaterialDictionary["Water"], 1050 }
+                }, new(), imagePath:ImageBase+"HarvesterPSU.webp"),
+
+                ///
+                // Chassis
+                ///
+
+                new ChassisPart("Sandcrawler Chassis Mk6", VehicleType.Harvester, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Plastanium Ingot"], 80 },
+                    { MaterialDictionary["Advanced Servoks"], 36 },
+                    { MaterialDictionary["Cobalt Paste"], 45 },
+                    { MaterialDictionary["Spice Melange"], 55 },
+                    { MaterialDictionary["Carbide Scraps"], 15 },
+                    { MaterialDictionary["Water"], 1050 }
+                }, new Dictionary<UtilityPartType, int>()
+                {
+                    { UtilityPartType.Other, 2}
+                }, imagePath:ImageBase+"HarvesterChassis.webp"),
+
+                ///
+                // Utility
+                ///
+
+                new UtilityPart("Sandcrawler Centrifuge Mk6", VehicleType.Harvester, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Plastanium Ingot"], 85 },
+                    { MaterialDictionary["Advanced Servoks"], 35 },
+                    { MaterialDictionary["Cobalt Paste"], 45 },
+                    { MaterialDictionary["Plasteel Composite Armor Plating"], 30 },
+                    { MaterialDictionary["Spice Melange"], 55 },
+                    { MaterialDictionary["Diamondine Dust"], 15 },
+                    { MaterialDictionary["Water"], 1050 }
+                }, UtilityPartType.Inventory, imagePath:ImageBase+"HarvesterCentrifuge.webp"),
+
+                new UtilityPart("Upgraded Regis Spice Container", VehicleType.Harvester, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Plastanium Ingot"], 145 },
+                    { MaterialDictionary["Advanced Servoks"], 60 },
+                    { MaterialDictionary["Cobalt Paste"], 80 },
+                    { MaterialDictionary["Plasteel Composite Armor Plating"], 50 },
+                    { MaterialDictionary["Spice Melange"], 185 },
+                    { MaterialDictionary["Diamondine Dust"], 25 },
+                    { MaterialDictionary["Spice-infused Plastanium Dust"], 30 },
+                    { MaterialDictionary["Water"], 1580 }
+                }, UtilityPartType.Inventory, imagePath:ImageBase+"HarvesterCentrifuge.webp"),
+
+                new UtilityPart("Sandcrawler Vacuum Mk6", VehicleType.Harvester, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Plastanium Ingot"], 60 },
+                    { MaterialDictionary["Advanced Servoks"], 36 },
+                    { MaterialDictionary["Cobalt Paste"], 45 },
+                    { MaterialDictionary["Spice Melange"], 54 },
+                    { MaterialDictionary["Advanced Machinery"], 9 },
+                    { MaterialDictionary["Water"], 1050 }
+                }, UtilityPartType.Turret, imagePath:ImageBase+"HarvesterVacuum.webp"),
 
             };
             Task<IEnumerable<Part>> result = Task.FromResult(parts);

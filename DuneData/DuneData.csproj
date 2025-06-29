@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>1.0.25176.28</AssemblyVersion>
+    <AssemblyVersion>1.0.25180.7</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -68,7 +68,13 @@
     <None Remove="Images\Items\SandtroutLeathers.webp" />
     <None Remove="Images\Items\SiliconeBlock.webp" />
     <None Remove="Images\Items\Solari.webp" />
+    <None Remove="Images\Items\SpiceInfusedAluminumDust.webp" />
+    <None Remove="Images\Items\SpiceInfusedCopperDust.webp" />
+    <None Remove="Images\Items\SpiceInfusedDuraluminumDust.webp" />
     <None Remove="Images\Items\SpiceInfusedFuelCell.webp" />
+    <None Remove="Images\Items\SpiceInfusedIronDust.webp" />
+    <None Remove="Images\Items\SpiceInfusedPlastaniumDust.webp" />
+    <None Remove="Images\Items\SpiceInfusedSteelDust.webp" />
     <None Remove="Images\Items\SpiceMelange.webp" />
     <None Remove="Images\Items\StandardFilter.webp" />
     <None Remove="Images\Items\SteelIngot.webp" />
@@ -78,6 +84,13 @@
     <None Remove="Images\Items\ThermoResponsiveRayAmplifier.webp" />
     <None Remove="Images\Items\TriForgedHydraulicPiston.webp" />
     <None Remove="Images\Items\water.webp" />
+    <None Remove="Images\Parts\HarvesterCabin.webp" />
+    <None Remove="Images\Parts\HarvesterCentrifuge.webp" />
+    <None Remove="Images\Parts\HarvesterChassis.webp" />
+    <None Remove="Images\Parts\HarvesterEngine.webp" />
+    <None Remove="Images\Parts\HarvesterPSU.webp" />
+    <None Remove="Images\Parts\HarvesterTreads.webp" />
+    <None Remove="Images\Parts\HarvesterVacuum.webp" />
     <None Remove="Images\Parts\SandbikeBackseat.webp" />
     <None Remove="Images\Parts\SandbikeBooster.webp" />
     <None Remove="Images\Parts\SandbikeChassis.webp" />
@@ -127,6 +140,7 @@
     <None Remove="Images\Placeables\Windtrap.webp" />
     <None Remove="Images\Placeables\WindTurbine.webp" />
     <None Remove="Images\Vehicles\Sandbike.webp" />
+    <None Remove="Images\Vehicles\Sandcrawler.webp" />
   </ItemGroup>
 
   <ItemGroup>
@@ -190,7 +204,13 @@
     <EmbeddedResource Include="Images\Items\SandtroutLeathers.webp" />
     <EmbeddedResource Include="Images\Items\SiliconeBlock.webp" />
     <EmbeddedResource Include="Images\Items\Solari.webp" />
+    <EmbeddedResource Include="Images\Items\SpiceInfusedAluminumDust.webp" />
+    <EmbeddedResource Include="Images\Items\SpiceInfusedCopperDust.webp" />
+    <EmbeddedResource Include="Images\Items\SpiceInfusedDuraluminumDust.webp" />
     <EmbeddedResource Include="Images\Items\SpiceInfusedFuelCell.webp" />
+    <EmbeddedResource Include="Images\Items\SpiceInfusedIronDust.webp" />
+    <EmbeddedResource Include="Images\Items\SpiceInfusedPlastaniumDust.webp" />
+    <EmbeddedResource Include="Images\Items\SpiceInfusedSteelDust.webp" />
     <EmbeddedResource Include="Images\Items\SpiceMelange.webp" />
     <EmbeddedResource Include="Images\Items\StandardFilter.webp" />
     <EmbeddedResource Include="Images\Items\SteelIngot.webp" />
@@ -199,7 +219,14 @@
     <EmbeddedResource Include="Images\Items\ThermoelectricCooler.webp" />
     <EmbeddedResource Include="Images\Items\ThermoResponsiveRayAmplifier.webp" />
     <EmbeddedResource Include="Images\Items\TriForgedHydraulicPiston.webp" />
-    <EmbeddedResource Include="Images\Items\water.webp" />
+    <EmbeddedResource Include="Images\Items\Water.webp" />
+    <EmbeddedResource Include="Images\Parts\HarvesterCabin.webp" />
+    <EmbeddedResource Include="Images\Parts\HarvesterCentrifuge.webp" />
+    <EmbeddedResource Include="Images\Parts\HarvesterChassis.webp" />
+    <EmbeddedResource Include="Images\Parts\HarvesterEngine.webp" />
+    <EmbeddedResource Include="Images\Parts\HarvesterPSU.webp" />
+    <EmbeddedResource Include="Images\Parts\HarvesterTreads.webp" />
+    <EmbeddedResource Include="Images\Parts\HarvesterVacuum.webp" />
     <EmbeddedResource Include="Images\Parts\SandbikeBackseat.webp" />
     <EmbeddedResource Include="Images\Parts\SandbikeBooster.webp" />
     <EmbeddedResource Include="Images\Parts\SandbikeChassis.webp" />
@@ -252,6 +279,7 @@
     <EmbeddedResource Include="Images\Placeables\Windtrap.webp" />
     <EmbeddedResource Include="Images\Placeables\WindTurbine.webp" />
     <EmbeddedResource Include="Images\Vehicles\Sandbike.webp" />
+    <EmbeddedResource Include="Images\Vehicles\Sandcrawler.webp" />
   </ItemGroup>
 
 </Project>

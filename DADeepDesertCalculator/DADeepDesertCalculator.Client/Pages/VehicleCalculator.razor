@@ -3,6 +3,7 @@
 @using DADeepDesertCalculator.Client.Components
 @using DuneData.Data;
 @using DuneData.Model;
+@using System.Text
 
 @inject DuneDataService dataService;
 @inject IJSRuntime JS
@@ -72,6 +73,30 @@
                         </span>
                         <MudHistorySelect TValue="Part" Options="Parts.Where(a => a.ForVehicleType == context.Item.Type && a.Type == typeKVP.Key).ToDictionary(x => x, x => x.Name)" OnValueChanged="(e) => PartChanged(e, context.Item)" />
                     }
+                    @{
+                        var UtilityFields = context.Item.AllowedUtilityPartTypes.Where(a => a.Key != UtilityPartType.Other);
+                    }
+                    @foreach (var partKVP in UtilityFields)
+                    {
+                        <MudInputLabel>@(partKVP.Key):</MudInputLabel>
+                        <MudHistorySelect TValue="UtilityPart" Options="Parts.Where(a => !context.Item.ChosenParts.Contains(a) && a.ForVehicleType == context.Item.Type && a.Type == PartType.Utility
+                            && ((UtilityPart)a).UtilityType == partKVP.Key)
+                            .Select(a => (UtilityPart)a).ToDictionary(x => x, x => x.Name)" OnValueChanged="(e) => UtilityPartChanged(e, context.Item)" />
+                    }
+
+                    @for(int i = 0; i < (context.Item.AllowedUtilityPartTypes.Keys.Contains(UtilityPartType.Other) ? context.Item.AllowedUtilityPartTypes[UtilityPartType.Other] : 0); i++)
+                    {
+                        <MudInputLabel>Other:</MudInputLabel>
+                        <MudHistorySelect TValue="UtilityPart" Options="Parts.Where(a => !context.Item.ChosenParts.Contains(a) && a.ForVehicleType == context.Item.Type && a.Type == PartType.Utility)
+                                .Select(a => (UtilityPart)a).Where(b => !UtilityFields.Select(a => a.Key).Contains(b.UtilityType)).ToDictionary(x => x, x => x.Name)" OnValueChanged="(e) => UtilityPartChanged(e, context.Item)" />
+                    }
+
+                    @if(context.Item.ChosenParts.Count(a => a.Type == PartType.Utility) > 0 && context.Item.ChosenParts?.Where(a => a.Type == PartType.Utility)?.CountBy(b => ((UtilityPart)b).UtilityType)?.Max(c => c.Value) > 1)
+                    {
+                        <div>
+                            <span class="fa fa-triangle-exclamation" /> <span>Cannot have more than one of the same utility part category.</span>
+                        </div>
+                    }
                 </MudCardContent>
             </MudCard>
         </ChildRowContent>
@@ -83,6 +108,7 @@
         <h3>
             Required Materials:
         </h3>
+        <MudButton OnClick="GenerateBBCode">Export to BBCode</MudButton>
         <MudDataGrid Items="@RequiredResources.Keys.OrderByDescending(a => RequiredResources[a])">
             <Columns>
                 <TemplateColumn>
@@ -198,6 +224,15 @@ else
         else
             v.ChosenParts = v.ChosenParts.Concat(newParts);
     }
+    private void UtilityPartChanged(Tuple<IEnumerable<UtilityPart>, IEnumerable<UtilityPart>> e, Vehicle v)
+    {
+        var oldParts = e.Item1;
+        var newParts = e.Item2;
+        if (oldParts != null)
+            v.ChosenParts = v.ChosenParts.Where(a => !oldParts.Contains(a)).Concat(newParts);
+        else
+            v.ChosenParts = v.ChosenParts.Concat(newParts);
+    }
     private void AddVehicle(Vehicle? add)
     {
         if (add == null) return;
@@ -229,5 +264,14 @@ else
             SelectedVehicles.Remove(remove);
     }
 
-    
+    private async Task GenerateBBCode()
+    {
+        StringBuilder bbcode = new();
+        foreach(var item in RequiredResources.OrderByDescending(a => a.Value))
+        {
+            bbcode.AppendLine("> :o: " + item.Key.Name + " 0/" + item.Value);
+        }
+        await JS.InvokeVoidAsync("clipboardCopy.copyText", bbcode.ToString());
+    }
+
 }

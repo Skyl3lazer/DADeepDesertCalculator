@@ -27,7 +27,7 @@ namespace DuneData.Model
             ChosenParts.Select(a => a.UtilityPartCapacity).SelectMany(d => d)
             .GroupBy(kvp => kvp.Key, (key, kvps) => new { Key = key, Value = kvps.Sum(kvp => kvp.Value) })
             .ToDictionary(x => x.Key, x => x.Value);
-        public int UtilityPartCount { get; set; }
+        public int UtilityPartCount => AllowedUtilityPartTypes.Sum(a => a.Value);
         public string Image { get; set; } = string.Empty;
         public Vehicle(string name, VehicleType type, Dictionary<PartType, int> requiredParts, string imagePath = "")
         {
