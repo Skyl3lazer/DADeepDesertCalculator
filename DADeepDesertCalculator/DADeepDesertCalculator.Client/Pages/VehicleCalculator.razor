@@ -27,7 +27,7 @@
     </div>
     <MudDataGrid Items="@SelectedVehicles.Keys" ReadOnly=false EditMode="DataGridEditMode.Cell" EditTrigger="DataGridEditTrigger.OnRowClick" ExpandSingleRow=true>
         <Columns>
-            <HierarchyColumn T="Vehicle"  />
+            <HierarchyColumn T="Vehicle" />
             <TemplateColumn Editable=false>
                 <CellTemplate>
                     <MudStack Row>
@@ -35,7 +35,7 @@
                     </MudStack>
                 </CellTemplate>
             </TemplateColumn>
-            <PropertyColumn Property="x => x.DisplayName" Title="Name"/>
+            <PropertyColumn Property="x => x.DisplayName" Title="Name" />
             <TemplateColumn Editable=false>
                 <CellTemplate>
                     <MudStack Row>
@@ -80,18 +80,18 @@
                     {
                         <MudInputLabel>@(partKVP.Key):</MudInputLabel>
                         <MudHistorySelect TValue="UtilityPart" Options="Parts.Where(a => !context.Item.ChosenParts.Contains(a) && a.ForVehicleType == context.Item.Type && a.Type == PartType.Utility
-                            && ((UtilityPart)a).UtilityType == partKVP.Key)
-                            .Select(a => (UtilityPart)a).ToDictionary(x => x, x => x.Name)" OnValueChanged="(e) => UtilityPartChanged(e, context.Item)" />
-                    }
+                                                                                           && ((UtilityPart)a).UtilityType == partKVP.Key)
+                                                                                           .Select(a => (UtilityPart)a).ToDictionary(x => x, x => x.Name)" OnValueChanged="(e) => UtilityPartChanged(e, context.Item)" />
+                                }
 
-                    @for(int i = 0; i < (context.Item.AllowedUtilityPartTypes.Keys.Contains(UtilityPartType.Other) ? context.Item.AllowedUtilityPartTypes[UtilityPartType.Other] : 0); i++)
+                    @for (int i = 0; i < (context.Item.AllowedUtilityPartTypes.Keys.Contains(UtilityPartType.Other) ? context.Item.AllowedUtilityPartTypes[UtilityPartType.Other] : 0); i++)
                     {
                         <MudInputLabel>Other:</MudInputLabel>
-                        <MudHistorySelect TValue="UtilityPart" Options="Parts.Where(a => !context.Item.ChosenParts.Contains(a) && a.ForVehicleType == context.Item.Type && a.Type == PartType.Utility)
-                                .Select(a => (UtilityPart)a).Where(b => !UtilityFields.Select(a => a.Key).Contains(b.UtilityType)).ToDictionary(x => x, x => x.Name)" OnValueChanged="(e) => UtilityPartChanged(e, context.Item)" />
-                    }
+                        <MudHistorySelect TValue="UtilityPart" Options="Parts.Where(a => /*!context.Item.ChosenParts.Contains(a) &&*/ a.ForVehicleType == context.Item.Type && a.Type == PartType.Utility)
+                                                                                               .Select(a => (UtilityPart)a).Where(b => !UtilityFields.Select(a => a.Key).Contains(b.UtilityType)).ToDictionary(x => x, x => x.Name)" OnValueChanged="(e) => UtilityPartChanged(e, context.Item)" />
+                                }
 
-                    @if(context.Item.ChosenParts.Count(a => a.Type == PartType.Utility) > 0 && context.Item.ChosenParts?.Where(a => a.Type == PartType.Utility)?.CountBy(b => ((UtilityPart)b).UtilityType)?.Max(c => c.Value) > 1)
+                    @if (context.Item.ChosenParts.Count(a => a.Type == PartType.Utility) > 0 && context.Item.ChosenParts?.Where(a => a.Type == PartType.Utility)?.CountBy(b => ((UtilityPart)b).UtilityType)?.Max(c => c.Value) > 1)
                     {
                         <div>
                             <span class="fa fa-triangle-exclamation" /> <span>Cannot have more than one of the same utility part category.</span>
@@ -219,19 +219,25 @@ else
     {
         var oldParts = e.Item1;
         var newParts = e.Item2;
-        if(oldParts != null)
-            v.ChosenParts = v.ChosenParts.Where(a => !oldParts.Contains(a)).Concat(newParts);
+        if (oldParts != null)
+            v.ChosenParts = v.ChosenParts.Where(a => !oldParts.Contains(a)).Concat(newParts).ToList();
         else
-            v.ChosenParts = v.ChosenParts.Concat(newParts);
+            v.ChosenParts = v.ChosenParts.Concat(newParts).ToList();
     }
     private void UtilityPartChanged(Tuple<IEnumerable<UtilityPart>, IEnumerable<UtilityPart>> e, Vehicle v)
     {
         var oldParts = e.Item1;
         var newParts = e.Item2;
         if (oldParts != null)
-            v.ChosenParts = v.ChosenParts.Where(a => !oldParts.Contains(a)).Concat(newParts);
+        {
+            foreach (var p in oldParts)
+                v.ChosenParts.Remove(v.ChosenParts.First(a => a.Name == p.Name));
+            v.ChosenParts = v.ChosenParts.Concat(newParts).ToList();
+        }
         else
-            v.ChosenParts = v.ChosenParts.Concat(newParts);
+        {
+            v.ChosenParts = v.ChosenParts.Concat(newParts).ToList();
+        }
     }
     private void AddVehicle(Vehicle? add)
     {
@@ -267,7 +273,7 @@ else
     private async Task GenerateBBCode()
     {
         StringBuilder bbcode = new();
-        foreach(var item in RequiredResources.OrderByDescending(a => a.Value))
+        foreach (var item in RequiredResources.OrderByDescending(a => a.Value))
         {
             bbcode.AppendLine("> :o: " + item.Key.Name + " 0/" + item.Value);
         }

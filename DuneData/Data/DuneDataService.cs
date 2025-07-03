@@ -450,6 +450,16 @@ namespace DuneData.Data
                     { MaterialDictionary["Water"], 338 }
                 }, new(), imagePath:ImageBase+"ScoutOrnithopterEngine.webp"),
 
+                new EnginePart("Scout Ornithopter Engine Mk5", VehicleType.Ornithopter, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Duraluminum Ingot"], 48 },
+                    { MaterialDictionary["Cobalt Paste"], 25 },
+                    { MaterialDictionary["Particle Capacitor"], 15 },
+                    { MaterialDictionary["Complex Machinery"], 21 },
+                    { MaterialDictionary["Hydraulic Piston"], 7 },
+                    { MaterialDictionary["Water"], 675 }
+                }, new(), imagePath:ImageBase+"ScoutOrnithopterEngine.webp"),
+
                 ///
                 // Chassis
                 ///
@@ -520,6 +530,14 @@ namespace DuneData.Data
                     { MaterialDictionary["Cobalt Paste"], 3 },
                     { MaterialDictionary["Industrial Pump"], 2 },
                     { MaterialDictionary["Water"], 340 }
+                }, new(), imagePath:ImageBase+"ScoutOrnithopterWing.webp"),
+                new LocomotionPart("Scout Ornithopter Wing Mk5", VehicleType.Ornithopter, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Duraluminum Ingot"], 12 },
+                    { MaterialDictionary["Advanced Servoks"], 7 },
+                    { MaterialDictionary["Cobalt Paste"], 6 },
+                    { MaterialDictionary["Industrial Pump"], 3 },
+                    { MaterialDictionary["Water"], 170 }
                 }, new(), imagePath:ImageBase+"ScoutOrnithopterWing.webp"),
 
                 ///

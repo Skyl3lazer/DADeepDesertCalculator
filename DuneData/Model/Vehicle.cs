@@ -22,7 +22,7 @@ namespace DuneData.Model
         }
 
         public Dictionary<PartType, int> RequiredParts { get; set; } = new();
-        public IEnumerable<Part> ChosenParts { get; set; } = new List<Part>();
+        public ICollection<Part> ChosenParts { get; set; } = new List<Part>();
         public Dictionary<UtilityPartType, int> AllowedUtilityPartTypes => 
             ChosenParts.Select(a => a.UtilityPartCapacity).SelectMany(d => d)
             .GroupBy(kvp => kvp.Key, (key, kvps) => new { Key = key, Value = kvps.Sum(kvp => kvp.Value) })

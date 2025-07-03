@@ -19,11 +19,13 @@
     [Parameter]
     public IEnumerable<TValue> SelectedOptions { get; set; } = default!;
 
+    private IEnumerable<TValue>? OldValues { get; set; } = null;
+
     [Parameter]
     public bool Multiselect { get; set; } = false;
 
     [Parameter]
-    public EventCallback<Tuple<IEnumerable<TValue>, IEnumerable<TValue>>> OnValueChanged { get; set; } = default!;
+    public EventCallback<Tuple<IEnumerable<TValue?>, IEnumerable<TValue?>>> OnValueChanged { get; set; } = default!;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -33,10 +35,10 @@
 
     private async Task OnSelectionChanged(IEnumerable<TValue> e)
     {
-        var oldValue = SelectedOptions;
         SelectedOptions = e;
         if (OnValueChanged.HasDelegate)
-            await OnValueChanged.InvokeAsync(new Tuple<IEnumerable<TValue>, IEnumerable<TValue>>(oldValue, e));
+            await OnValueChanged.InvokeAsync(new Tuple<IEnumerable<TValue?>, IEnumerable<TValue?>>(OldValues, e));
 
+        OldValues = SelectedOptions.ToList();
     }
 }
