@@ -414,6 +414,16 @@ namespace DuneData.Data
                     { PartType.Locomotion, 2 }
                 }, ImageBase+"Sandcrawler.webp"),
 
+                new Vehicle("Scout Ornithopter", VehicleType.Ornithopter, new Dictionary<PartType, int>()
+                {
+                    { PartType.Chassis, 1},
+                    { PartType.Power, 1},
+                    { PartType.Front, 1},
+                    { PartType.Rear, 1},
+                    { PartType.Engine, 1},
+                    { PartType.Locomotion, 4 }
+                }, ImageBase+"ScoutOrnithopter.webp"),
+
             };
             Task<IEnumerable<Vehicle>> result = Task.FromResult(vehicles);
             return result;
@@ -423,6 +433,110 @@ namespace DuneData.Data
             string ImageBase = "DuneData.Images.Parts.";
             IEnumerable<Part> parts = new List<Part>()
             {
+                ////
+                //Scout Ornithopter
+                ////
+
+                ///
+                // Engines
+                ///
+
+                new EnginePart("Scout Ornithopter Engine Mk4", VehicleType.Ornithopter, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Aluminum Ingot"], 35 },
+                    { MaterialDictionary["Cobalt Paste"], 14 },
+                    { MaterialDictionary["Particle Capacitor"], 6 },
+                    { MaterialDictionary["Complex Machinery"], 8 },
+                    { MaterialDictionary["Water"], 338 }
+                }, new(), imagePath:ImageBase+"ScoutOrnithopterEngine.webp"),
+
+                ///
+                // Chassis
+                ///
+
+                new ChassisPart("Scout Ornithopter Chassis Mk4", VehicleType.Ornithopter, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Aluminum Ingot"], 45 },
+                    { MaterialDictionary["Advanced Servoks"], 10 },
+                    { MaterialDictionary["Cobalt Paste"], 14 },
+                    { MaterialDictionary["Carbide Scraps"], 7 },
+                    { MaterialDictionary["Water"], 340 }
+                }, new(), imagePath:ImageBase+"ScoutOrnithopterChassis.webp"),
+
+                ///
+                // Front
+                ///
+
+                new FrontPart("Scout Ornithopter Cockpit Mk4", VehicleType.Ornithopter, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Aluminum Ingot"], 45 },
+                    { MaterialDictionary["Advanced Servoks"], 10 },
+                    { MaterialDictionary["Cobalt Paste"], 14 },
+                    { MaterialDictionary["Armor Plating"], 11 },
+                    { MaterialDictionary["Diamondine Dust"], 7 },
+                    { MaterialDictionary["Water"], 340 }
+                }, new Dictionary<UtilityPartType, int>()
+                {
+                    { UtilityPartType.Scanner, 1 }
+                }, imagePath:ImageBase+"ScoutOrnithopterCockpit.webp"),
+
+                ///
+                // Back
+                ///
+
+                new RearPart("Scout Ornithopter Hull Mk4", VehicleType.Ornithopter, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Aluminum Ingot"], 45 },
+                    { MaterialDictionary["Advanced Servoks"], 10 },
+                    { MaterialDictionary["Cobalt Paste"], 14 },
+                    { MaterialDictionary["Armor Plating"], 11 },
+                    { MaterialDictionary["Diamondine Dust"], 7 },
+                    { MaterialDictionary["Water"], 340 }
+                }, new Dictionary<UtilityPartType, int>()
+                {
+                    { UtilityPartType.Other, 1 }
+                }, imagePath:ImageBase+"ScoutOrnithopterHull.webp"),
+
+                ///
+                // PSU
+                ///
+
+                new PowerPart("Scout Ornithopter Generator Mk4", VehicleType.Ornithopter, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Aluminum Ingot"], 35 },
+                    { MaterialDictionary["Particle Capacitor"], 16 },
+                    { MaterialDictionary["Cobalt Paste"], 14 },
+                    { MaterialDictionary["Water"], 338 }
+                }, new(), imagePath:ImageBase+"ScoutOrnithopterGenerator.webp"),
+
+                ///
+                // Wings
+                ///
+
+                new LocomotionPart("Scout Ornithopter Wing Mk4", VehicleType.Ornithopter, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Aluminum Ingot"], 9 },
+                    { MaterialDictionary["Advanced Servoks"], 4 },
+                    { MaterialDictionary["Cobalt Paste"], 3 },
+                    { MaterialDictionary["Industrial Pump"], 2 },
+                    { MaterialDictionary["Water"], 340 }
+                }, new(), imagePath:ImageBase+"ScoutOrnithopterWing.webp"),
+
+                ///
+                // Utility
+                ///
+
+                new UtilityPart("Scout Ornithopter Rocket Launcher Mk5", VehicleType.Ornithopter, new Dictionary<Guid, int>()
+                {
+                    { MaterialDictionary["Duraluminum Ingot"], 70 },
+                    { MaterialDictionary["Advanced Servoks"], 40 },
+                    { MaterialDictionary["Cobalt Paste"], 36 },
+                    { MaterialDictionary["Range Finder"], 15 },
+                    { MaterialDictionary["Spice Melange"], 10 },
+                    { MaterialDictionary["Water"], 1010 }
+                }, UtilityPartType.Turret, imagePath:ImageBase+"ScoutOrnithopterRocketLauncher.webp"),
+
+
                 ////
                 //Sandbike
                 ////

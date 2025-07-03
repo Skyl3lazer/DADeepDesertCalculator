@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>1.0.25180.7</AssemblyVersion>
+    <AssemblyVersion>1.0.25184.5</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -100,6 +100,13 @@
     <None Remove="Images\Parts\SandbikePsu.webp" />
     <None Remove="Images\Parts\SandbikeScanner.webp" />
     <None Remove="Images\Parts\SandbikeTread.webp" />
+    <None Remove="Images\Parts\ScoutOrnithopterChassis.webp" />
+    <None Remove="Images\Parts\ScoutOrnithopterCockpit.webp" />
+    <None Remove="Images\Parts\ScoutOrnithopterEngine.webp" />
+    <None Remove="Images\Parts\ScoutOrnithopterGenerator.webp" />
+    <None Remove="Images\Parts\ScoutOrnithopterHull.webp" />
+    <None Remove="Images\Parts\ScoutOrnithopterRocketLauncher.webp" />
+    <None Remove="Images\Parts\ScoutOrnithopterWing.webp" />
     <None Remove="Images\Placeables\AdvancedFremenDeathstill.webp" />
     <None Remove="Images\Placeables\AdvancedGarmentFabricator.webp" />
     <None Remove="Images\Placeables\AdvancedSubfiefConsole.webp" />
@@ -141,6 +148,7 @@
     <None Remove="Images\Placeables\WindTurbine.webp" />
     <None Remove="Images\Vehicles\Sandbike.webp" />
     <None Remove="Images\Vehicles\Sandcrawler.webp" />
+    <None Remove="Images\Vehicles\ScoutOrnithopter.webp" />
   </ItemGroup>
 
   <ItemGroup>
@@ -236,6 +244,13 @@
     <EmbeddedResource Include="Images\Parts\SandbikePsu.webp" />
     <EmbeddedResource Include="Images\Parts\SandbikeScanner.webp" />
     <EmbeddedResource Include="Images\Parts\SandbikeTread.webp" />
+    <EmbeddedResource Include="Images\Parts\ScoutOrnithopterChassis.webp" />
+    <EmbeddedResource Include="Images\Parts\ScoutOrnithopterCockpit.webp" />
+    <EmbeddedResource Include="Images\Parts\ScoutOrnithopterEngine.webp" />
+    <EmbeddedResource Include="Images\Parts\ScoutOrnithopterGenerator.webp" />
+    <EmbeddedResource Include="Images\Parts\ScoutOrnithopterHull.webp" />
+    <EmbeddedResource Include="Images\Parts\ScoutOrnithopterRocketLauncher.webp" />
+    <EmbeddedResource Include="Images\Parts\ScoutOrnithopterWing.webp" />
     <EmbeddedResource Include="Images\Placeables\AdvancedFremenDeathstill.webp">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -280,6 +295,7 @@
     <EmbeddedResource Include="Images\Placeables\WindTurbine.webp" />
     <EmbeddedResource Include="Images\Vehicles\Sandbike.webp" />
     <EmbeddedResource Include="Images\Vehicles\Sandcrawler.webp" />
+    <EmbeddedResource Include="Images\Vehicles\ScoutOrnithopter.webp" />
   </ItemGroup>
 
 </Project>
